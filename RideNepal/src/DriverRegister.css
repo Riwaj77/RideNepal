@@ -1,0 +1,94 @@
+/* ... existing styles ... */
+/* Driver Signup Styles */
+.signup-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #1A1D24;
+    color: white;
+    padding: 2rem 1rem;
+  }
+  .signup-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1F2937;
+    border-radius: 0.5rem;
+    padding: 2rem;
+  }
+  .signup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .signup-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #F7D63F;
+    margin-bottom: 0.5rem;
+  }
+  .signup-subtitle {
+    color: #9CA3AF;
+  }
+  .signup-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+    padding: 0 1rem;
+  }
+  .signup-progress::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #374151;
+    z-index: 0;
+  }
+  .progress-step {
+    position: relative;
+    background-color: #1F2937;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    color: #9CA3AF;
+    z-index: 1;
+  }
+  .progress-step.active {
+    background-color: #F7D63F;
+    color: black;
+  }
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  .form-step {
+    margin-bottom: 2rem;
+  }
+  .form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  .form-checkbox input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #4B5563;
+    background-color: #374151;
+    cursor: pointer;
+  }
+  .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .form-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }

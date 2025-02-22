@@ -1,389 +1,256 @@
 :root {
-    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
-      "Source Han Sans CN", sans-serif;
-  }
-  
-  .login-main-container {
-    overflow: hidden;
-  }
-  
-  .login-main-container,
-  .login-main-container * {
-    box-sizing: border-box;
-  }
-  
-  input,
-  select,
-  textarea,
-  button {
-    outline: 0;
-  }
-  
-  /* .login-main-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    background: #1b1d28;
-    overflow: hidden;
-  } */
-   body{
-    background-color: #1b1d28;
-   }
-  .login-login-1 {
-    position: relative;
-    width: 784px;
-    height: 506px;
-    margin: 100px 0 0 400px;
-    background: linear-gradient(80.35deg, #1b1d28, #ffde59);
-    border: 1px solid #f1ebc3;
-    overflow: hidden;
-    border-radius: 20px;
-  }
-  .login-flex-row-ec {
-    position: absolute;
-    width: 744px;
-    height: 506px;
-    top: -1px;
-    left: 39px;
-    z-index: 24;
-  }
-  .login-frame {
+  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #1b1d28;
+}
+
+.login-main-container {
+  overflow: hidden;
+}
+
+.login-main-container, .login-main-container * {
+  box-sizing: border-box;
+}
+
+input, select, textarea, button {
+  outline: 0;
+}
+
+.login-login-1 {
+  position: relative;
+  width: 784px;
+  height: 506px;
+  margin: 100px auto;
+  background: linear-gradient(80.35deg, #1b1d28, #ffde59);
+  border: 1px solid #f1ebc3;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.login-frame {
+  position: absolute;
+  width: 291px;
+  height: 506px;
+  top: 0;
+  left: 500px;
+  background: url(./assets/images/signup.png) no-repeat center;
+  background-size: cover;
+  z-index: 22;
+}
+
+.login-black-blue-minimalist-6{
     position: absolute;
     width: 291px;
     height: 506px;
     top: 0;
-    left: 453px;
-    background: url(./assets/images/signup.png)
-      no-repeat center;
+    left: 500px;
+    background: url(./assets/images/logo.png) no-repeat center;
     background-size: cover;
     z-index: 22;
-    overflow: hidden;
   }
-  .login-yellow-white-modern {
+  
+.login-frame-2 {
+  position: absolute;
+  width: 198.818px;
+  height: 38.213px;
+  top: 119px;
+  left: 0;
+  z-index: 1;
+}
+
+.login-3 {
+  position: absolute;
+  height: 35px;
+  top: 8px;
+  left: 39px;
+  color: #ffde59;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 35px;
+}
+
+.login-group {
+  position: absolute;
+  width: 170px;
+  height: 35px;
+  top: 341px;
+  left: 95px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.login-frame-4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffde59;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.login-next {
+  color: #000000;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.login-flex-row-b {
+  position: absolute;
+  width: 358px;
+  height: 64px;
+  top: 19px;
+  left: 6px;
+  z-index: 7;
+}
+
+.login-ride-nepal {
+  position: absolute;
+  color: #ffde59;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+  left: 39px;
+}
+
+.login-access {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  height: 19px;
+  top: 171px;
+  left: 39px;
+  color: #f1ebc3;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.login-flex-row-dbc {
+  position: absolute;
+  width: 45.66%;
+  height: 16.01%;
+  top: 44.07%;
+  left: 4.97%;
+}
+
+.login-enter-mobile-number {
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  color: #f1ebc3;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  top: 0;
+  left: 0;
+}
+
+.login-button-group {
+  position: absolute;
+  width: 78.013px;
+  height: 40px;
+  top: 41px;
+  left: 2px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.login-plus {
     position: absolute;
-    width: 291px;
-    height: 869px;
-    top: -183px;
+    width: 78.013px;
+    height: 40px;
+    top: 0;
     left: 0;
-    z-index: 23;
-  }
-  .login-frame-2 {
-    position: absolute;
-    width: 198.818px;
-    height: 38.213px;
-    top: 119px;
-    left: 0;
-    z-index: 1;
-  }
-  .login-3 {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 35px;
-    top: 8px;
-    left: 0;
-    color: #ffde59;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 35px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 2;
-  }
-  .login-group {
-    position: absolute;
-    width: 170px;
-    height: 35px;
-    top: 341px;
-    left: 95px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    z-index: 24;
-  }
-  .login-frame-4 {
+    background: #f1ebc3;
+    z-index: 11;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
-    gap: 10px;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    padding: 10px 10px 10px 10px;
-    background: #ffde59;
-    border: 1px solid #000000;
-    z-index: 25;
-    border-radius: 5px;
-  }
-  .login-next {
-    flex-shrink: 0;
-    flex-basis: auto;
-    position: relative;
-    height: 19px;
-    color: #000000;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 18.75px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 26;
-  }
-  .login-flex-row-b {
-    position: absolute;
-    width: 358px;
-    height: 64px;
-    top: 19px;
-    left: 6px;
-    z-index: 7;
-  }
-  .login-black-blue-minimalist {
-    position: absolute;
-    width: 48px;
-    height: 29px;
-    top: 0;
-    left: 0;
-    z-index: 6;
-  }
-  .login-group-5 {
-    position: absolute;
-    width: 262px;
-    height: 64px;
-    top: 0;
-    left: 96px;
-    z-index: 4;
-  }
-  .login-ride-nepal {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 64px;
-    top: 0;
-    left: 0;
-    color: #ffde59;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 60px;
-    text-align: left;
-    white-space: nowrap;
-    letter-spacing: -0.4px;
-    z-index: 5;
-  }
-  .login-black-blue-minimalist-6 {
-    position: absolute;
-    width: 84px;
-    height: 54px;
-    top: 10px;
-    left: 12px;
-    z-index: 7;
-  }
-  .login-access {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 19px;
-    top: 171px;
-    left: 39px;
-    color: #f1ebc3;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 18.75px;
-    text-align: left;
-    white-space: nowrap;
-    opacity: 0.75;
-    z-index: 3;
-  }
-  .login-flex-row-dbc {
-    position: absolute;
-    width: 45.66%;
-    height: 16.01%;
-    top: 44.07%;
-    left: 4.97%;
-    z-index: 16;
-  }
-  .login-enter-mobile-number {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    width: 343px;
-    height: 74.07%;
-    top: 0;
-    left: 0;
-    color: #f1ebc3;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 23.438px;
-    text-align: left;
-    z-index: 16;
-  }
-  .login-button-group {
-    position: absolute;
-    width: 78.013px;
-    height: 40px;
-    top: 41px;
-    left: 2px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    z-index: 8;
-  }
-  .login-rectangle {
-    position: absolute;
-    width: 78.013px;
-    height: 40px;
-    top: 0;
-    left: 0;
-    background: #f1ebc3;
-    z-index: 9;
-    border-radius: 7px;
-  }
-  .login-plus {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 23px;
-    top: calc(50% - 10px);
-    left: 27.715px;
-    color: #191d1e;
     font-family: Karla, var(--default-font-family);
     font-size: 16px;
     font-weight: 400;
     line-height: 18.704px;
     text-align: left;
-    white-space: nowrap;
-    z-index: 11;
-  }
-  .login-nepal {
-    position: absolute;
-    width: 11.291px;
-    height: 15px;
-    top: 12px;
-    left: 11.292px;
-    z-index: 10;
-  }
-  .login-group-7 {
-    position: absolute;
-    width: 263px;
-    height: 40px;
-    top: 41px;
-    left: 95px;
-    font-size: 0px;
-    z-index: 12;
-    overflow: hidden;
-    border-radius: 7px;
-  }
-  .login-number {
-    display: block;
-    position: relative;
-    height: 23px;
-    margin: 10px 0 0 11.084px;
     color: rgba(25, 29, 30, 0.63);
-    font-family: Karla, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 18.704px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 14;
-  }
-  .login-rectangle-8 {
-    position: absolute;
-    width: 263px;
-    height: 40px;
-    top: 0;
-    left: 0;
-    background: #f1ebc3;
-    z-index: 13;
-    border-radius: 7px;
-  }
-  .login-group-input {
-    position: absolute;
-    width: 263px;
-    height: 40px;
-    top: 0;
-    left: 0;
-    background: transparent;
-    border: none;
-    z-index: 15;
-    outline: none;
-  }
-  .login-group-9 {
-    position: absolute;
-    width: 267.76px;
-    height: 18px;
-    top: 425px;
-    left: 50%;
-    transform: translate(-128.85%, 0);
-    z-index: 17;
-  }
-  .login-not-registered-yet {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 18px;
-    top: 0;
-    left: 0;
-    color: #f1ebc3;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 18px;
-    text-align: left;
-    white-space: nowrap;
-    opacity: 0.75;
-    z-index: 18;
-  }
-  .login-group-a {
-    position: absolute;
-    width: 103.76px;
-    height: 17.143px;
-    top: 0;
-    left: 164px;
-    z-index: 19;
-  }
-  .login-line {
-    position: relative;
-    width: 101.753px;
-    height: 1.449px;
-    margin: 15.694px 0 0 1.005px;
-    background: url(./assets/images/b27b4215-b3ab-44d0-9c6f-edf4caa876c3.png)
-      no-repeat center;
-    background-size: cover;
-    z-index: 21;
-  }
-  .login-register-now {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 17.143px;
-    top: 0;
-    left: 0;
-    color: #f1ebc3;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 17.143px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 20;
-    cursor: pointer;
-  }
-  
-  
+}
+
+
+.login-nepal {
+  position: absolute;
+  width: 11.291px;
+  height: 15px;
+  top: 12px;
+  left: 11.292px;
+}
+
+.login-group-7 {
+  position: absolute;
+  width: 263px;
+  height: 40px;
+  top: 41px;
+  left: 95px;
+  border-radius: 7px;
+}
+
+.login-number {
+        position: absolute;
+        width: 263px;
+        height: 40px;
+        top: 0;
+        left: 0;
+        background: #f1ebc3;
+        z-index: 14;
+        border-radius: 7px;
+        font-family: Karla, var(--default-font-family);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 18.704px;
+        text-align: left;
+        padding-left: 10px;
+}
+
+.login-group-9 {
+  position: absolute;
+  width: 267.76px;
+  height: 18px;
+  top: 425px;
+  left: 50%;
+  transform: translate(-128.85%, 0);
+}
+
+.login-not-registered-yet {
+  color: #f1ebc3;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.login-group-a {
+  position: absolute;
+  width: 103.76px;
+  height: 17.143px;
+  top: 0;
+  left: 164px;
+}
+
+.login-register-now {
+  color: #f1ebc3;
+  font-family: Roboto, var(--default-font-family);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}

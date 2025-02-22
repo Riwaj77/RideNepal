@@ -1,0 +1,297 @@
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+      "Source Han Sans CN", sans-serif;
+  }
+  
+  .menu_main-container {
+    overflow: hidden;
+  }
+  
+  .menu_main-container,
+  .menu_main-container * {
+    box-sizing: border-box;
+  }
+  
+  input,
+  select,
+  textarea,
+  button {
+    outline: 0;
+  }
+  
+  .menu_main-container {
+    position: relative;
+    width: 428px;
+    height: 891px;
+    margin: 0 auto;
+    background: #1b1d28;
+    overflow: hidden;
+  }
+  .menu_rectangle {
+    position: relative;
+    width: 430px;
+    height: 78px;
+    margin: 0 0 0 -2px;
+    background: #1b1d28;
+    border-bottom: 1px solid #f1ebc3;
+  }
+  .menu_menu-1 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
+    width: 77px;
+    height: 35px;
+    top: 27px;
+    left: 26px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 1;
+  }
+  .menu_close-px {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 27px;
+    left: 379px;
+    background: url(../assets/images/a08bbc3b-6272-4456-9b53-5de98b5cce6b.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 2;
+  }
+  .menu_flex-row-b {
+    position: relative;
+    width: 372.023px;
+    height: 48px;
+    margin: 25px 0 0 27px;
+    z-index: 37;
+  }
+  .menu_frame-3 {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: 0;
+    left: 0;
+    background: #f1ebc3;
+    z-index: 34;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px 0 rgba(69, 69, 69, 0.15) inset;
+  }
+
+  .menu_pd{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    left: 8px;
+    background: url(./assets/images/menu_pd.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 36;
+    overflow: hidden;
+  }
+  .menu_wallet {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    left: 8px;
+    background: url(./assets/images/wallet_black.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 36;
+    overflow: hidden;
+  }
+  .menu_bold-setting {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 9px;
+    left: 9px;
+    z-index: 35;
+  }
+  .menu_wallet-4 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    height: 20px;
+    top: 12px;
+    left: 63px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    z-index: 33;
+  }
+  .menu_arrow-left {
+    position: absolute;
+    width: 21.023px;
+    height: 13px;
+    top: 16px;
+    left: 351px;
+    background: url(./assets/images/leftarrow.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 37;
+  }
+   .menu_ridehistory{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    left: 8px;
+    background: url(./assets/images/ridehistory.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 36;
+    overflow: hidden;
+   }
+
+  .menu_becomeadriver{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    left: 8px;
+    background: url(./assets/images/menu_bike.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 36;
+    overflow: hidden;
+  }
+
+  .menu_help{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    left: 8px;
+    background: url(./assets/images/menu_help.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 36;
+    overflow: hidden;
+  }
+  
+  .menu_flex-row {
+    position: relative;
+    width: 373px;
+    height: 33px;
+    margin: 180px 0 0 28px;
+    z-index: 31;
+  }
+  .menu_frame-e {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 12px;
+    position: absolute;
+    width: 354.421px;
+    height: 27px;
+    top: 0;
+    left: 0;
+    z-index: 27;
+  }
+  .menu_frame-f {
+    flex-shrink: 0;
+    position: relative;
+    width: 48px;
+    height: 48px;
+    background: #f1ebc3;
+    border: 0.5px solid #f1ebc3;
+    z-index: 28;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px 0 rgba(69, 69, 69, 0.15) inset;
+  }
+  .menu_solar-logout-bold {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    margin: 10.5px 0 0 10px;
+    background: url(./assets/images/menu_logout.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 29;
+    overflow: hidden;
+  }
+  .menu_logout {
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    height: 20px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    z-index: 30;
+  }
+  .menu_vuesax-outline-arrow-left-10 {
+    position: absolute;
+    width: 22px;
+    height: 24px;
+    top: 9px;
+    left: 351px;
+    background: url(./assets/images/leftarrow.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 31;
+  }
+
+  /* Overlay styles */
+.menu_overlay {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Start off-screen */
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999;
+    transition: left 0.3s ease-in-out; /* Smooth slide-in animation */
+  }
+  
+  /* When the menu is open */
+  .menu_overlay.menu_open {
+    left: 0; /* Slide in from the left */
+  }
+  
+  /* Menu container styles */
+  .menu_main-container {
+    position: relative;
+    width: 428px;
+    height: 100%;
+    background: #1b1d28;
+    /* overflow-y: auto; Allow scrolling if content is long */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Close button styles */
+  .menu_close-px {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background: url(./assets/images/close.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 2;
+  }

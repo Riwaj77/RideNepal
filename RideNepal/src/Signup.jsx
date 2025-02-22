@@ -1,21 +1,43 @@
-import React from 'react';
+import {React, useState} from 'react';
 import "./Signup.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import axios from 'axios';
 
 export default function Signup() {
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:4000/signups", {firstname, lastname, email, phone})
+        .then(result=>{
+            console.log(result);
+            navigate("/login");
+        })
+        .catch(err => console.log(err));
+    }
+
     return (
         <div className="main-container">
-            <div className="header">
-                <div className="black-blue-logo"></div>
-                <div className="frame">
-                    <span className="next">SignUp</span>
-                </div>
-                <Link to="/login" className="login">Login</Link>
-                <span className="book-ride">Book a Ride</span>
-                <span className="about">About</span>
-                <span className="contact-us">Contact Us</span>
-                <span className="home">Home</span>
-            </div>
+            <header className="header">
+                    <div className="black-blue-logo"></div>
+                   <Link to= "/signup">
+                          <button className="frame">
+                            <span className="next">Sign Up</span>
+                          </button>
+                    </Link>
+                
+                      <Link to="/login" className="login">Login</Link>
+                      <Link to="/book-ride" className="book-ride">Book a Ride</Link>
+                      <Link to="/about" className="about">About</Link>
+                      <Link to="/contact-us" className="contact-us">Contact Us</Link>
+                      <Link to="/" className="home">Home</Link>
+                  </header>
+            
             <div className="login-1">
                 <div className="flex-row-e">
                     <div className="frame-2">
@@ -24,24 +46,25 @@ export default function Signup() {
                     <div className="frame-3">
                         <span className="sign-up-4">Sign up</span>
                     </div>
+
+                    <form onSubmit={handleSubmit}>
                     <span className="enter-mobile-number">Enter your mobile number</span>
                     <span className="plus-977">+977</span>
-                    <span className="number">##########</span>
-                    <button className="first-name">
-                        <span className="first-name-5">Firstname</span>
-                    </button>
-                    <button className="last-name">
-                        <span className="last-name-6">Lastname</span>
-                    </button>
-                    <div className="form-control">
-                        <span className="enter-email">Enter your email</span>
-                        <input className="form-control-input" />
+                    <input className="number" placeholder='#########' onChange={(e) => setPhone(e.target.value)}/>
+                    <input className="first-name" placeholder='First Name' onChange={(e)=> setFirstName(e.target.value)}/>
+                     <input className="last-name" placeholder='Last Name' onChange={(e)=> setLastName(e.target.value)}/>
+                   
+                    <input className="form-control" placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)}/>
+
+                    <div className="button-group">
+                    <button type="submit" className="frame-7">Register</button>
                     </div>
-                    <button className="button-group">
+                    {/* <button className="button-group">
                         <div className="frame-7">
-                            <span className="register">Register</span>
+                            <Link to="/verify" className="register">Register</Link>
                         </div>
-                    </button>
+                    </button> */}
+                    </form>
                 </div>
                 <div className="flex-row-eb">
                     <div className="black-blue-minimalist"></div>
@@ -53,10 +76,6 @@ export default function Signup() {
                 <span className="lets-set-up">Let’s get you all set up</span>
                 <div className="flex-row-eb-9">
                     <button className="button-group-a"></button>
-                    <div className="group-b">
-                        <div className="rectangle"></div>
-                        <input className="group-input" />
-                    </div>
                 </div>
             </div>
             <div className="footer">

@@ -1,0 +1,24 @@
+.group {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    top: 26px;
+    left: 1312px;
+    background: url(../assets/images/c6a6b663-d4f2-4c3e-98be-268dd3b90a56.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 6;
+  }
+  .material-symbols-menu {
+    position: absolute;
+    width: 35px;
+    height: 34px;
+    top: 20px;
+    left: 1373px;
+    background: url(./assets/images/menu.png)
+      no-repeat center;
+    background-size: cover;
+    z-index: 7;
+    overflow: hidden;
+    cursor: pointer;
+  }

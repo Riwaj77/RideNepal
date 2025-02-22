@@ -27,7 +27,7 @@
     height: 1156px;
     margin: 0 auto;
     background: #1b1d28;
-    overflow: hidden;
+    overflow: auto;
   }
   .header {
     position: relative;
@@ -35,15 +35,18 @@
     height: 70px;
     margin: 0 0 0 7px;
     background: #1b1d28;
-    border-top: 1px solid #f1ebc3;
+    border-bottom: 1px solid #f1ebc3;
   }
   .black-blue-logo {
     position: absolute;
-    width: 84px;
-    height: 54px;
-    top: 8px;
-    left: 10px;
-    z-index: 1;
+    background: url(./assets/images/logo.png)
+    no-repeat center;
+    width: 6.78%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-size: 100% 100%;
+    z-index: 43;
   }
   .frame {
     display: flex;
@@ -75,6 +78,7 @@
     text-align: left;
     white-space: nowrap;
     z-index: 10;
+    cursor: pointer;
   }
   .login {
     display: flex;
@@ -176,7 +180,6 @@
     z-index: 11;
     overflow: hidden;
     border-radius: 20px;
-    box-shadow: 0 4px 75px 0 #f1ebc3;
   }
   .flex-row-e {
     position: absolute;
@@ -185,6 +188,8 @@
     top: -0.16%;
     left: 4.97%;
     z-index: 37;
+   
+
   }
   .frame-2 {
     position: absolute;
@@ -194,6 +199,7 @@
     left: 453px;
     z-index: 23;
     overflow: hidden;
+   
   }
   .yellow-white-modern {
     position: absolute;
@@ -202,6 +208,9 @@
     top: -183px;
     left: 0;
     z-index: 24;
+    background: url(./assets/images/signup.png)
+    no-repeat center;
+    background-size: cover;
   }
   .frame-3 {
     position: absolute;
@@ -246,38 +255,42 @@
     z-index: 37;
   }
   .plus-977 {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
     position: absolute;
-    height: 23px;
-    top: calc(50% - 43px);
-    left: 29.715px;
-    color: #191d1e;
+    width: 78.013px;
+    height: 40px;
+    top: calc(50% - 52px);
+    left: 0;
+    background: #f1ebc3;
+    z-index: 11;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: Karla, var(--default-font-family);
     font-size: 16px;
     font-weight: 400;
     line-height: 18.704px;
     text-align: left;
-    white-space: nowrap;
-    z-index: 35;
+    color: rgba(25, 29, 30, 0.63);
   }
   .number {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    position: absolute;
-    height: 23px;
-    top: calc(50% - 43px);
+    top: calc(50% - 52px);
     left: 106.084px;
-    color: rgba(25, 29, 30, 0.63);
+    color: 1B1D28;
     font-family: Karla, var(--default-font-family);
     font-size: 16px;
     font-weight: 400;
     line-height: 18.704px;
     text-align: left;
-    white-space: nowrap;
-    z-index: 36;
+    background: #f1ebc3;
+    position: absolute;
+    width: 263px;
+    height: 40px;
+    z-index: 20;
+    border-radius: 7px;
   }
   .first-name {
     position: absolute;
@@ -292,23 +305,6 @@
     overflow: hidden;
     border-radius: 7px;
   }
-  .first-name-5 {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 19px;
-    top: calc(50% - 10px);
-    left: 18px;
-    color: rgba(25, 29, 30, 0.63);
-    font-family: Roboto, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 18.75px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 29;
-  }
   .last-name {
     position: absolute;
     width: 22.98%;
@@ -322,60 +318,18 @@
     overflow: hidden;
     border-radius: 7px;
   }
-  .last-name-6 {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    height: 19px;
-    top: calc(50% - 11px);
-    left: 17px;
-    color: rgba(25, 29, 30, 0.67);
-    font-family: Roboto, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 18.75px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 31;
-  }
   .form-control {
     position: absolute;
     width: 48.12%;
     height: 7.39%;
     top: 64.47%;
     left: 0;
-    font-size: 0px;
     background: #f1ebc3;
     z-index: 32;
     overflow: hidden;
     border-radius: 7px;
   }
-  .enter-email {
-    display: block;
-    position: relative;
-    height: 19px;
-    margin: 14px 0 0 12px;
-    color: #757575;
-    font-family: Roboto, var(--default-font-family);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 18.75px;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 33;
-  }
-  .form-control-input {
-    position: absolute;
-    width: 358px;
-    height: 47px;
-    top: 0;
-    left: 0;
-    background: transparent;
-    border: none;
-    z-index: 34;
-    outline: none;
-  }
+  
   .button-group {
     position: absolute;
     width: 170px;
@@ -403,6 +357,7 @@
     border: 1px solid #000000;
     z-index: 26;
     border-radius: 5px;
+    cursor: pointer;
   }
   .register {
     flex-shrink: 0;
@@ -433,6 +388,7 @@
     top: 0;
     left: 0;
     z-index: 17;
+    
   }
   .group {
     position: absolute;
@@ -508,25 +464,6 @@
     background-size: cover;
     border: none;
     z-index: 19;
-  }
-  .group-b {
-    flex-shrink: 0;
-    position: relative;
-    width: 263px;
-    height: 40px;
-    z-index: 20;
-    overflow: hidden;
-    border-radius: 7px;
-  }
-  .rectangle {
-    position: absolute;
-    width: 263px;
-    height: 40px;
-    top: 0;
-    left: 0;
-    background: #f1ebc3;
-    z-index: 21;
-    border-radius: 7px;
   }
   .group-input {
     position: absolute;
@@ -660,6 +597,10 @@
     top: 0;
     left: 0;
     z-index: 39;
+    background: url(./assets/images/logo.png)
+    no-repeat center;
+    background-size: cover;
+
   }
   .round-phone-px {
     position: absolute;
@@ -667,7 +608,7 @@
     height: 24px;
     top: 16px;
     left: 342px;
-    background: url(./assets/images/cf1b7757-9f6d-4b8c-a639-772a68d3c787.png)
+    background: url(./assets/images/phone.png)
       no-repeat center;
     background-size: cover;
     z-index: 45;

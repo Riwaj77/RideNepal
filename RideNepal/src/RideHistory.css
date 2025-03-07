@@ -1,0 +1,95 @@
+.rh_ride-history {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .rh_ride-history-header {
+    margin-bottom: 2rem;
+  }
+  
+  .rh_ride-history-header h1 {
+    margin-bottom: 1rem;
+    color: #ffde59;
+  }
+  
+  .rh_search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rh_search-bar input {
+    border: none;
+    margin-left: 0.5rem;
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .rh_rides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .rh_ride-item {
+    background: #f1ebc3;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rh_ride-item.completed {
+    border-left: 4px solid #48bb78;
+  }
+  
+  .rh_ride-item.cancelled {
+    border-left: 4px solid #f56565;
+  }
+  
+  .rh_ride-main-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .rh_ride-locations {
+    font-weight: 500;
+    color: #1b1d28;
+  }
+  
+  .rh_ride-cost {
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .rh_ride-secondary-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #718096;
+  }
+  
+  .rh_ride-status {
+    text-transform: capitalize;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+  }
+  
+  .rh_completed .rh_ride-status {
+    background: #f0fff4;
+    color: #48bb78;
+  }
+  
+  .rh_cancelled .rh_ride-status {
+    background: #fff5f5;
+    color: #f56565;
+  }
+  

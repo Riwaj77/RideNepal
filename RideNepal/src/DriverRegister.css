@@ -3,14 +3,14 @@
 .signup-container {
     width: 100%;
     min-height: 100vh;
-    background-color: #1A1D24;
-    color: white;
+    background-color: #1b1d28;
+    color: #f1ebc3;
     padding: 2rem 1rem;
   }
   .signup-content {
     max-width: 800px;
     margin: 0 auto;
-    background-color: #1F2937;
+    background-color: #1b1d28;
     border-radius: 0.5rem;
     padding: 2rem;
   }
@@ -25,7 +25,7 @@
     margin-bottom: 0.5rem;
   }
   .signup-subtitle {
-    color: #9CA3AF;
+    color: #f1ebc3;
   }
   .signup-progress {
     display: flex;
@@ -46,14 +46,14 @@
   }
   .progress-step {
     position: relative;
-    background-color: #1F2937;
+    background-color: #1b1d28;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     color: #9CA3AF;
     z-index: 1;
   }
   .progress-step.active {
-    background-color: #F7D63F;
+    background-color: #ffde59;
     color: black;
   }
   .step-title {
@@ -75,7 +75,7 @@
     height: 1rem;
     border-radius: 0.25rem;
     border: 1px solid #4B5563;
-    background-color: #374151;
+    background-color: #1b1d28;
     cursor: pointer;
   }
   .file-input {

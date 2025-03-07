@@ -9,6 +9,14 @@ import Menu from './Menu';
 import Personaldetails from './personaldetails';
 import RiderProfile  from './RiderProfile';
 import DriverRegister  from './DriverRegister';
+import EditPersonaldetails from './Editpd';
+import Wallet from './Wallet';
+import Aboutus from './Aboutus';
+import EditUser from './admin/edituser'
+import RideHistory from './RideHistory';
+import Help from './Help';
+import AdminDashboard from './admin/AdminDashboard';
+import EditRider from './admin/editriders';
 
 function App() {
   // State to control the menu overlay
@@ -38,6 +46,14 @@ function App() {
       element: <Home />,
     },
     {
+      path: "/help",
+      element: <Help />,
+    },
+    {
+      path: "/ridehistory",
+      element: <RideHistory />,
+    },
+    {
       path: "/home",
       element: (
         <>
@@ -45,6 +61,7 @@ function App() {
           {isMenuOpen && <Menu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />}
         </>
       ),
+
     },
     {
       path: "/menu",
@@ -62,6 +79,32 @@ function App() {
       path: "/DriverRegister",
       element: <DriverRegister />,
     },
+    {
+      path: "/Editpersonaldetails",
+      element: <EditPersonaldetails />,
+    },
+    {
+      path: "/wallet",
+      element: <Wallet />,
+    },
+    {
+      path: "/about",
+      element: <Aboutus />,
+    },
+    
+      //Admin panel
+      {
+        path: "/edituser",
+        element: <EditUser />,
+        },
+        {
+          path: "/editrider",
+          element: <EditRider />,
+          },
+          {
+            path: "/adDashboard",
+            element: <AdminDashboard />,
+            }
   ]);
 
   return (

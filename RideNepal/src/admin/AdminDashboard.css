@@ -1,0 +1,140 @@
+.ad_container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.ad_header {
+    background-color: #1b1d28;
+    color: #ffde59;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px #f1ebc3;
+}
+
+.ad_header-logo h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* .ad_menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+} */
+
+.ad_layout {
+    display: flex;
+    flex: 1;
+}
+
+.ad_sidebar {
+    width: 240px;
+    background-color: #1b1d28;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.ad_sidebar-nav ul {
+    list-style-type: none;
+    padding: 20px 0;
+}
+
+.ad_sidebar-nav li {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ad_sidebar-nav li:hover {
+    background-color: #1b1d28;
+}
+
+.ad_sidebar-nav li.ad_active {
+    background-color: #ebd85b;
+    border-left: 4px solid #1b1d28;
+    color: #1b1d28;
+    font-weight: 500;
+}
+
+.ad_main {
+    flex: 1;
+    padding: 30px;
+}
+
+.ad_main h2 {
+    margin-bottom: 25px;
+    font-weight: 500;
+    color: #f1ebc3;
+}
+
+.ad_stats-container {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.ad_stat-card {
+    background-color: #f1ebc3;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 320px;
+}
+
+.ad_stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 16px;
+}
+
+.ad_user-icon {
+    background-color: #1b1d28;
+    color: #ffde59;
+}
+
+.ad_rider-icon {
+    background-color: #1b1d28;
+    color: #ffde59;
+}
+
+.ad_stat-details {
+    flex: 1;
+}
+
+.ad_stat-details h3 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1b1d28;
+    margin-bottom: 8px;
+}
+
+.ad_stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.ad_manage-button {
+    background-color: #ffde59;
+    color: #1b1d28;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ad_manage-button:hover {
+    background-color: #c79f00;
+}

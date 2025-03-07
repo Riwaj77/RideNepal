@@ -177,9 +177,11 @@ export default function Home() {
             driver and don’t forget to register your bike as well.
           </span>
         </div>
-        <button className="home-register-button">
-          <span className="home-label-text">Register now</span>
-        </button>
+       <Link to= "/DriverRegister">
+              <button className="home-register-button">
+                <span className="home-label-text">Register now</span>
+              </button>
+              </Link>
       </div>
     </div>
   

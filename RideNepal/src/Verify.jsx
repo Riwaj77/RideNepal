@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Verify.css";
 
 export default function Verify() {
+  const [code, setCode] = useState("");
+  const [isCodeValid, setIsCodeValid] = useState(false);
+
+  const handleVerify = (e) => {
+    if (code.trim() === "") {
+      alert("Please enter the code");
+      e.preventDefault(); // Prevents navigation
+    } else if (code.length < 6) {
+      alert("Invalid verification code");
+      e.preventDefault(); // Prevents navigation
+    } else {
+      // Validation passed
+      setIsCodeValid(true); // Allow navigation
+    }
+  };
+
   return (
     <div className="main-container">
       {/* Header Section */}
@@ -11,49 +27,57 @@ export default function Verify() {
         <div className="frame">
           <Link to="/signup" className="next">Sign Up</Link>
         </div>
-    
-          <Link to="/login" className="login">Login</Link>
-          <Link to="/book-ride" className="book-ride">Book a Ride</Link>
-          <Link to="/about" className="about">About</Link>
-          <Link to="/contact-us" className="contact-us">Contact Us</Link>
-          <Link to="/" className="home">Home</Link>
+        <Link to="/login" className="login">Login</Link>
+        <Link to="/book-ride" className="book-ride">Book a Ride</Link>
+        <Link to="/about" className="about">About</Link>
+        <Link to="/contact-us" className="contact-us">Contact Us</Link>
+        <Link to="/" className="home">Home</Link>
       </header>
 
-      {/* Main Login Section */}
-       <div className="login-main-container">
-             <div className="login-login-1">
-               <div className="login-flex-row-ec">
-                 <div className="login-frame">
-                   <div className="login-yellow-white-modern"></div>
-                 </div>
-                 <div className="login-frame-2">
-                   <span className="login-3">Verify Code</span>
-                 </div>
-                 <button className="login-group">
-                   <div className="login-frame-4">
-                     <span> <Link to="/home" className="login-next">Done</Link></span>
-                   </div>
-                 </button>
-               </div>
-               <div className="login-flex-row-b">
-                 <div className="login-black-blue-minimalist"></div>
-                 <div className="login-group-5">
-                   <span className="login-ride-nepal">RideNepal</span>
-                 </div>
-                 <div className="login-black-blue-minimalist-6"></div>
-               </div>
-               <span className="login-access">We’ve sent you a 6-digit confirmation code at</span>
-               <div className="login-flex-row-dbc">
-                 <span className="login-enter-mobile-number">Enter your code</span>
-
-                   <input className="verify-number" placeholder="##########" maxLength={6}/>
-            
-                 
-               </div>
-             </div>
-           </div>
-
-
+      {/* Main Verification Section */}
+      <div className="login-main-container">
+        <div className="login-login-1">
+          <div className="login-flex-row-ec">
+            <div className="login-frame">
+              <div className="login-yellow-white-modern"></div>
+            </div>
+            <div className="login-frame-2">
+              <span className="login-3">Verify Code</span>
+            </div>
+            <button className="login-group" onClick={handleVerify}>
+              <div className="login-frame-4">
+                <span>
+                  {isCodeValid ? (
+                    <span><Link to="/home" className="login-next">Done</Link></span>
+                  ) : (
+                    <span>Done</span>
+                  )}
+                </span>
+              </div>
+            </button>
+          </div>
+          <div className="login-flex-row-b">
+            <div className="login-black-blue-minimalist"></div>
+            <div className="login-group-5">
+              <span className="login-ride-nepal">RideNepal</span>
+            </div>
+            <div className="login-black-blue-minimalist-6"></div>
+          </div>
+          <span className="login-access">
+            We’ve sent you a 6-digit confirmation code at
+          </span>
+          <div className="login-flex-row-dbc">
+            <span className="login-enter-mobile-number">Enter your code</span>
+            <input
+              className="verify-number"
+              placeholder="######"
+              maxLength={6}
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Footer Section */}
       <footer className="footer">

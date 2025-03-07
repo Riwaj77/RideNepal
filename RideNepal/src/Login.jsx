@@ -10,16 +10,24 @@
 
 //   const handleSubmit = (e) => {
 //     e.preventDefault();
-//     // Making the API request to check phone number
+
+//     // Phone number validation
+//     const phoneRegex = /^[0-9]{10}$/;
+//     if (!phoneRegex.test(phone)) {
+//       alert("Please enter a valid 10-digit phone number.");
+//       return;
+//     }
+
+//     // Make the API request to check phone number
 //     axios.post("http://localhost:4000/logins", { phone })
 //       .then((response) => {
 //         console.log(response.data);
-//         navigate("/verify"); // Redirect to the verification page (assuming you want to verify after login)
+//         navigate("/verify"); // Redirect to the verification page
 //       })
 //       .catch((err) => {
 //         console.log(err);
 //         if (err.response && err.response.data) {
-//           setErrorMessage(err.response.data.message); // Show error message if phone not registered
+//           alert(err.response.data.message); // Show error message if phone not found
 //         }
 //       });
 //   };
@@ -34,11 +42,6 @@
 //           <div className="login-frame-2">
 //             <span className="login-3">Login</span>
 //           </div>
-//           <button className="login-group">
-//             <div className="login-frame-4">
-//               <span> <Link to="/verify" className="login-next">Login</Link></span>
-//             </div>
-//           </button>
 //         </div>
 //         <div className="login-flex-row-b">
 //           <div className="login-black-blue-minimalist"></div>
@@ -69,7 +72,12 @@
 //             />
 //           </div>
 //         </div>
-//         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show error message */}
+
+//         {/* This is the actual Login Button */}
+//         <div className="login-group">
+//           <button className="login-frame-4" onClick={handleSubmit}>Login</button>
+//         </div>
+
 //         <div className="login-group-9">
 //           <span className="login-not-registered-yet">Not registered yet?</span>
 //           <div className="login-group-a">
@@ -78,9 +86,6 @@
 //             </span>
 //           </div>
 //         </div>
-//         <button className="login-button-group" onClick={handleSubmit}>
-//           Login
-//         </button>
 //       </div>
 //     </div>
 //   );
@@ -110,7 +115,8 @@ export default function Login() {
     axios.post("http://localhost:4000/logins", { phone })
       .then((response) => {
         console.log(response.data);
-        navigate("/verify"); // Redirect to the verification page
+        localStorage.setItem('token', response.data.token); // Store the token in local storage
+        navigate("/verify"); 
       })
       .catch((err) => {
         console.log(err);

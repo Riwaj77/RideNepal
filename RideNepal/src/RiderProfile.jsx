@@ -17,18 +17,18 @@ export default function RiderProfile () {
           <button onClick={() => setActiveTab("profile")} className={`nav-button ${activeTab === "profile" ? "active" : ""}`}>
             ⚪ Profile
           </button>
-          <button onClick={() => setActiveTab("kyc")} className={`nav-button ${activeTab === "kyc" ? "active" : ""}`}>
+          {/* <button onClick={() => setActiveTab("kyc")} className={`nav-button ${activeTab === "kyc" ? "active" : ""}`}>
             📄 KYC Verification
-          </button>
+          </button> */}
           <button onClick={() => setActiveTab("rides")} className={`nav-button ${activeTab === "rides" ? "active" : ""}`}>
             🕒 Ride History
           </button>
           <button onClick={() => setActiveTab("earnings")} className={`nav-button ${activeTab === "earnings" ? "active" : ""}`}>
             💰 Earnings
           </button>
-          <button onClick={() => setActiveTab("settings")} className={`nav-button ${activeTab === "settings" ? "active" : ""}`}>
+          {/* <button onClick={() => setActiveTab("settings")} className={`nav-button ${activeTab === "settings" ? "active" : ""}`}>
             ⚙️ Settings
-          </button>
+          </button> */}
         </nav>
         <div className="content">
           {activeTab === "profile" && <div>

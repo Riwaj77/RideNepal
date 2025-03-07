@@ -1,0 +1,212 @@
+.about_positive-caring-relationships-teachers {
+    position: relative;
+    width: 1440px;
+    height: 530px;
+    margin: 84px 0 0 0;
+    background: rgba(0, 0, 0, 0.04000000000000001);
+    z-index: 1;
+    overflow: visible auto;
+  }
+  .about_frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: relative;
+    width: 663px;
+    margin: 80px 0 0 355px;
+    z-index: 2;
+  }
+  .about_about-us-1 {
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    height: 120px;
+    color: #ffde59;
+    font-family: Source Serif Pro, var(--default-font-family);
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 120px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 3;
+  }
+  .about_lorem-ipsum {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 663px;
+    height: 84px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.125px;
+    text-align: center;
+    z-index: 4;
+  }
+  .about_frame-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    position: relative;
+    width: 135px;
+    height: 40px;
+    margin: 44px 0 0 619px;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+    background: #ffde59;
+    border: none;
+    z-index: 5;
+    border-radius: 10px;
+  }
+  .about_see-more {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    width: 77px;
+    height: 22px;
+    color: #1b1d28;
+    font-family: Lato, var(--default-font-family);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.6px;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 6;
+  }
+  .about_about {
+    position: relative;
+    width: 1440px;
+    height: 742px;
+    margin: 0 0 0 1px;
+    background: #1b1d28;
+    z-index: 7;
+    overflow: hidden;
+  }
+  .about_flex-column-c {
+    position: absolute;
+    width: 442px;
+    height: 619px;
+    top: 94px;
+    left: 170px;
+    font-size: 0px;
+    z-index: 16;
+  }
+  .about_about-us-3 {
+    display: block;
+    position: relative;
+    height: 35px;
+    margin: 0 0 0 0;
+    color: #ffde59;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 15;
+  }
+  .about_dummy-text-industry {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    width: 442px;
+    height: 529px;
+    margin: 55px 0 0 0;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28.125px;
+    text-align: left;
+    z-index: 16;
+  }
+  .about_group {
+    position: absolute;
+    width: 403px;
+    height: 519.144px;
+    top: 116px;
+    left: 818px;
+    z-index: 8;
+  }
+  .about_group-4 {
+    position: relative;
+    width: 403px;
+    height: 107.144px;
+    margin: 0 0 0 0;
+    z-index: 9;
+  }
+  .about_dummy-text-industry-5 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    width: 403px;
+    height: 107.144px;
+    top: 0;
+    left: 0;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.125px;
+    text-align: left;
+    z-index: 10;
+  }
+  .about_group-6 {
+    position: relative;
+    width: 366px;
+    height: 103.449px;
+    margin: 69.856px 0 0 0;
+    z-index: 11;
+  }
+  .about_text-7 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    width: 366px;
+    height: 103.449px;
+    top: 0;
+    left: 0;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.125px;
+    text-align: left;
+    z-index: 12;
+  }
+  .about_box-2 {
+    position: relative;
+    width: 403px;
+    height: 107.144px;
+    margin: 131.551px 0 0 0;
+    z-index: 13;
+  }
+  .about_text-8 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    width: 403px;
+    height: 107.144px;
+    top: 0;
+    left: 0;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.125px;
+    text-align: left;
+    z-index: 14;
+  }

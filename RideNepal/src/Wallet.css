@@ -1,0 +1,226 @@
+.wallet_balance {
+    display: block;
+    position: relative;
+    height: 35px;
+    margin: 130px 0 0 80px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 35px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 31;
+}
+
+.wallet_balance-amount {
+    display: block;
+    position: relative;
+    height: 28px;
+    margin: 5px 0 0 80px;
+    color: #37f51a;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    white-space: nowrap;
+    opacity: 0.9;
+    z-index: 33;
+}
+
+.wallet_payment-history {
+    display: block;
+    position: relative;
+    height: 28px;
+    margin: 46px 0 0 80px;
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 32;
+}
+
+.wallet_flex-row-bce {
+    position: relative;
+    width: 1127px;
+    height: 300px;
+    margin: 23px 0 0 80px;
+    z-index: 16;
+}
+
+.wallet_rectangle {
+    position: absolute;
+    width: 454px;
+    height: 112px;
+    top: 0;
+    left: 673px;
+    background: rgba(241, 235, 195, 0.7);
+    z-index: 34;
+    border-radius: 12px;
+}
+
+.wallet_rectangle-1 {
+    position: absolute;
+    width: 454px;
+    height: 56px;
+    top: 0;
+    left: 673px;
+    background: #f1ebc3;
+    border-top: 1px solid #1b1d28;
+    z-index: 35;
+    border-radius: 12px 12px 0 0;
+}
+
+.wallet_frame {
+    position: absolute;
+    width: 601px;
+    height: 200px;
+    top: 2px;
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #f1ebc3;
+    z-index: 38;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.wallet_frame-2 {
+    position: relative;
+    width: 972px;
+    height: 56px;
+    margin: 0 0 0 0;
+    z-index: 39;
+}
+
+.wallet_frame-3 {
+    position: absolute;
+    width: 600px;
+    height: 56px;
+    top: 0;
+    left: 0;
+    background: #f1ebc3;
+    z-index: 40;
+    overflow: hidden;
+}
+
+.wallet_date {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    height: 20px;
+    top: 18px;
+    left: 58px;
+    color: #1b1d28;
+    font-family: Outfit, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    letter-spacing: 0.16px;
+    z-index: 41;
+}
+
+.wallet_group {
+    position: absolute;
+    width: 76px;
+    height: 24px;
+    top: 18px;
+    left: 484px;
+    z-index: 42;
+}
+
+.wallet_icons {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 0;
+    left: 0;
+    background: url(../assets/images/1ea45b36-5e38-4792-949c-46fc1b1114d0.png) no-repeat center;
+    background-size: cover;
+    z-index: 43;
+}
+
+.wallet_price {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
+    width: 52px;
+    height: 20px;
+    top: 0;
+    left: 24px;
+    color: #ef4646;
+    font-family: Outfit, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.16px;
+    z-index: 44;
+}
+
+.wallet_group-4 {
+    position: absolute;
+    width: 2.66%;
+    height: 8.9%;
+    top: 1.78%;
+    left: 60.6%;
+    background: url(../assets/images/de45ed65-7c5f-486a-8dde-f16659cf8da7.png) no-repeat center;
+    background-size: 100% 100%;
+    z-index: 45;
+}
+
+.wallet_load-money {
+    position: absolute;
+    width: 236px;
+    height: 28px;
+    top: 13px;
+    left: 737px;
+    cursor: pointer;
+    color: #1b1d28;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    z-index: 46;
+}
+
+.wallet_material-symbols-light {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 67px;
+    left: 682px;
+    background: url(../assets/images/14d5ce95-e402-4582-b483-36b03d99a86c.png) no-repeat center;
+    background-size: cover;
+    z-index: 46;
+    overflow: hidden;
+}
+
+.wallet_ese-wa {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    height: 28px;
+    top: 72px;
+    left: 737px;
+    color: #000000;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 47;
+}

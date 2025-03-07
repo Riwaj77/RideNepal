@@ -16,7 +16,7 @@ export default function Signup() {
         axios.post("http://localhost:4000/signups", {firstname, lastname, email, phone})
         .then(result=>{
             console.log(result);
-            navigate("/login");
+            navigate("/verify");
         })
         .catch(err => console.log(err));
     }

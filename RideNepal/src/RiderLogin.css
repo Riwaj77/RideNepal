@@ -1,0 +1,9 @@
+.rider-login-register-now{
+    color: #f1ebc3;
+    font-family: Roboto, var(--default-font-family);
+    font-size: 17px;
+    font-weight: 600;
+    margin-left: 75px;
+    cursor: pointer;
+    display: flex;
+}

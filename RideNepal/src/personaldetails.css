@@ -147,8 +147,6 @@
     height: 100px;
     top: 0;
     left: 0;
-    /* background: url(../assets/images/24c72999-26e0-491d-a05d-e87f9d6cb9a8.png)
-      no-repeat center; */
     background-size: cover;
     z-index: 11;
     border-bottom: 1px solid #f1ebc3;
@@ -188,8 +186,6 @@
     height: 100px;
     top: 132px;
     left: 32px;
-    /* background: url(./assets/images/bike.png)
-      no-repeat center; */
     background-size: cover;
     z-index: 13;
     border-radius: 50%;
@@ -197,13 +193,10 @@
   }
   .pd_user-profile {
     position: absolute;
-    width: 64px;
+    width: 90px;
     height: 66px;
-    top: 152px;
+    top: 235px;
     left: 46px;
-    /* background: url(./assets/images/bicycle.png)
-      no-repeat center; */
-    background-size: cover;
     z-index: 30;
   }
 
@@ -333,7 +326,7 @@
     z-index: 17;
     overflow: hidden;
     border-radius: 8px;
-   
+    padding-left: 10px;
     font-family: Roboto, var(--default-font-family);
     font-size: 16px;
     font-weight: 400;
@@ -349,6 +342,7 @@
     z-index: 20;
     overflow: hidden;
     border-radius: 8px;
+    padding-left: 10px;
 
     font-family: Roboto, var(--default-font-family);
     font-size: 16px;
@@ -365,6 +359,7 @@
     z-index: 18;
     overflow: hidden;
     border-radius: 8px;
+    padding-left: 10px;
 
     font-family: Roboto, var(--default-font-family);
     font-size: 16px;
@@ -382,6 +377,7 @@
     z-index: 19;
     overflow: hidden;
     border-radius: 8px;
+    padding-left: 10px;
 
     font-family: Roboto, var(--default-font-family);
     font-size: 16px;

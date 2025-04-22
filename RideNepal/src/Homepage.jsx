@@ -1,20 +1,103 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Home.css";
 import "./Homepage.css"
 
+// Import icons
+import personalDetailsIcon from './assets/images/menu_pd.png';
+import walletIcon from './assets/images/wallet.png';
+import historyIcon from './assets/images/ridehistory.png';
+import driverIcon from './assets/images/menu_bike.png';
+import helpIcon from './assets/images/menu_help.png';
+import logoutIcon from './assets/images/menu_logout.png';
+
 export default function Homepage({toggleMenu}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Check for authentication token when component mounts
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token check in Homepage:", token ? "Token exists" : "No token found");
+    
+    if (!token) {
+      console.warn("No authentication token found. User might need to login.");
+      
+    }
+  }, []);
+
+  // Handle click outside menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      localStorage.clear();
+      navigate("/");
+    }
+  };
+
   return (
     <div className="home-main-container">
       {/* Header Section */}
       <header className="header">
         <div className="black-blue-logo"></div>
-        <div className="group" />
-        <div className="material-symbols-menu" onClick={toggleMenu} />
-          <Link to="/book-ride" className="book-ride">Book a Ride</Link>
-          <Link to="/about" className="about">About</Link>
-          <Link to="/contact-us" className="contact-us">Contact Us</Link>
-          <Link to="/home" className="home">Home</Link>
+        
+        {/* Menu Button and Dropdown */}
+        <div className="home-menu-container" ref={menuRef}>
+          <button 
+            className="home-menu-button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="menu-icon">☰</span>
+          </button>
+          
+          {isMenuOpen && (
+            <div className="home-menu-dropdown">
+              <Link to="/personaldetails" className="menu-item" onClick={() => setIsMenuOpen(false)}>
+                <img src={personalDetailsIcon} alt="Personal Details" className="menu-item-icon" />
+                <span>Personal Details</span>
+              </Link>
+              <Link to="/wallet" className="menu-item" onClick={() => setIsMenuOpen(false)}>
+                <img src={walletIcon} alt="Wallet" className="menu-item-icon" />
+                <span>Wallet</span>
+              </Link>
+              <Link to="/ridehistory" className="menu-item" onClick={() => setIsMenuOpen(false)}>
+                <img src={historyIcon} alt="Ride History" className="menu-item-icon" />
+                <span>Ride History</span>
+              </Link>
+              <Link to="/DriverRegister" className="menu-item" onClick={() => setIsMenuOpen(false)}>
+                <img src={driverIcon} alt="Become a Driver" className="menu-item-icon" />
+                <span>Become a Driver</span>
+              </Link>
+              <Link to="/help" className="menu-item" onClick={() => setIsMenuOpen(false)}>
+                <img src={helpIcon} alt="Help" className="menu-item-icon" />
+                <span>Help</span>
+              </Link>
+              <button className="menu-item logout" onClick={handleLogout}>
+                <img src={logoutIcon} alt="Logout" className="menu-item-icon" />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
+        </div>
+        
+        <Link to="/book-ride" className="book-ride">Book a Ride</Link>
+        <Link to="/about" className="about">About</Link>
+        <Link to="/contact-us" className="contact-us">Contact Us</Link>
+        <Link to="/home" className="home">Home</Link>
       </header>
 
       {/* Main Section */}
@@ -166,7 +249,7 @@ export default function Homepage({toggleMenu}) {
           <span className="home-become-a-driver">Become a Driver</span>
           <span className="home-register-as-driver">
             Be a part of a growing community of RideNepal. Register as a
-            driver and don’t forget to register your bike as well.
+            driver and don't forget to register your bike as well.
           </span>
         </div>
         <Link to= "/DriverRegister">

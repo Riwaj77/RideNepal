@@ -13,14 +13,34 @@ export default function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:4000/signups", {firstname, lastname, email, phone})
-        .then(result=>{
-            console.log(result);
-            navigate("/verify");
-        })
-        .catch(err => console.log(err));
-    }
-
+    
+        // Phone number and email validation
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phone)) {
+            alert("Please enter a valid 10-digit phone number.");
+            return;
+        }
+    
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+    
+        // Make the API request to sign up the user
+        axios.post("http://localhost:4000/signups", { firstname, lastname, email, phone })
+            .then(result => {
+                console.log(result);
+                localStorage.setItem('email', result.data.email);
+                alert('Registration successful, check your email for OTP');
+                navigate("/verify");  // Navigate to OTP verification page
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error during registration. Please try again.");
+            });
+    };
+    
     return (
         <div className="main-container">
             <header className="header">

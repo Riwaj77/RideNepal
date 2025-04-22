@@ -1,31 +1,10 @@
-// router.post('/verify', async (req, res) => {
-//     try {
-//         const { phone, otp } = req.body;
+import express from 'express';
+import { Signup } from '../Model/Signup.js';
 
-//         // Find user by phone and check OTP
-//         const user = await Signup.findOne({ phone, otp });
+const router = express.Router();
 
-//         if (!user) {
-//             return res.status(400).json({ message: 'Invalid OTP' });
-//         }
-
-//         // Check if OTP is expired
-//         if (user.otpExpires < new Date()) {
-//             return res.status(400).json({ message: 'OTP expired' });
-//         }
-
-//         // Clear OTP after verification
-//         user.otp = null;
-//         user.otpExpires = null;
-//         await user.save();
-
-//         res.status(200).json({ message: 'OTP verified successfully' });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error verifying OTP', error: error.message });
-//     }
-// });
-
-router.post('/verify-otp', async (req, res) => {
+// OTP Verification Route
+router.post('/', async (req, res) => {
     try {
         const { email, otp } = req.body;
 
@@ -42,11 +21,15 @@ router.post('/verify-otp', async (req, res) => {
         }
 
         // Check if OTP matches and is still valid
-        if (user.otp !== otp || user.otpExpires < Date.now()) {
-            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        if (user.otp !== otp) {
+            return res.status(400).json({ message: 'Invalid OTP code' });
         }
 
-        // OTP is valid, proceed with further actions
+        if (user.otpExpires < Date.now()) {
+            return res.status(400).json({ message: 'OTP code has expired' });
+        }
+
+        // OTP is valid, proceed with further actions (e.g., login success)
         res.status(200).json({ message: 'OTP verified successfully' });
 
     } catch (error) {
@@ -54,3 +37,41 @@ router.post('/verify-otp', async (req, res) => {
         res.status(500).json({ message: 'Error verifying OTP', error: error.message });
     }
 });
+
+// GET method to check OTP status
+router.get('/', async (req, res) => {
+    try {
+        const { email } = req.query;
+
+        // Validate email
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        // Find the user by email
+        const user = await Signup.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if OTP has expired
+        if (user.otpExpires < Date.now()) {
+            return res.status(400).json({ message: 'OTP code has expired' });
+        }
+
+        // Check if OTP has been verified already
+        if (user.otpVerified) {
+            return res.status(200).json({ message: 'OTP already verified' });
+        }
+
+        // OTP is valid and not expired
+        res.status(200).json({ message: 'OTP is valid and unverified' });
+
+    } catch (error) {
+        console.error('Error fetching OTP status:', error);
+        res.status(500).json({ message: 'Error fetching OTP status', error: error.message });
+    }
+});
+
+export default router;

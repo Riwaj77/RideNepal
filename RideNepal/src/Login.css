@@ -226,7 +226,7 @@ input, select, textarea, button {
   position: absolute;
   width: 267.76px;
   height: 18px;
-  top: 425px;
+  top: 390px;
   left: 50%;
   transform: translate(-128.85%, 0);
 }
@@ -236,7 +236,7 @@ input, select, textarea, button {
   font-family: Roboto, var(--default-font-family);
   font-size: 18px;
   font-weight: 500;
-  opacity: 0.75;
+  opacity: 3;
 }
 
 .login-group-a {

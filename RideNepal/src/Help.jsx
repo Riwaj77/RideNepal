@@ -1,15 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ChevronDown,
   ChevronUp,
   MessageCircle,
   Phone,
   Mail,
+  Search,
+  ArrowLeft,
 } from "lucide-react";
 import './Help.css';
 
-export default function Help(){
+// Import icons for the menu
+import personalDetailsIcon from './assets/images/menu_pd.png';
+import walletIcon from './assets/images/wallet.png';
+import historyIcon from './assets/images/ridehistory.png';
+import driverIcon from './assets/images/menu_bike.png';
+import helpIcon from './assets/images/menu_help.png';
+import logoutIcon from './assets/images/menu_logout.png';
+
+export default function Help() {
   const [openFaq, setOpenFaq] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
+  
+  // Handle click outside menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      localStorage.clear();
+      navigate("/");
+    }
+  };
+  
   const faqs = [
     {
       question: "How do I book a ride?",

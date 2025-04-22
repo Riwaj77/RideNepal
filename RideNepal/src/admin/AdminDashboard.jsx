@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Car, Menu } from 'lucide-react';
+import axios from 'axios'; // Import Axios for API calls
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const stats = {
-    totalUsers: 1248,
-    totalRiders: 567
-  };
+  const [stats, setStats] = useState({ totalUsers: 0, totalRiders: 0 });
+
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/user/count'); // Backend API URL
+        setStats((prev) => ({ ...prev, totalUsers: response.data.totalUsers }));
+      } catch (error) {
+        console.error('Error fetching user count:', error);
+      }
+    };
+
+    fetchUserCount();
+
+    const fetchRiderCount = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/riders/count'); // Backend API URL
+        setStats((prev) => ({ ...prev, totalRiders: response.data.totalRiders }));
+      } catch (error) {
+        console.error('Error fetching rider count:', error);
+      }
+    };
+
+    fetchRiderCount();
+  }, []);
 
   return (
     <div className="ad_container">
@@ -16,11 +38,6 @@ export default function AdminDashboard() {
         <div className="ad_header-logo">
           <h1>RideNepal</h1>
         </div>
-        {/* <div className="ad_header-nav">
-          <button className="ad_menu-button">
-            <Menu size={24} />
-          </button>
-        </div> */}
       </header>
       <div className="ad_layout">
         <aside className="ad_sidebar">

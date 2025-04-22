@@ -36,3 +36,6 @@ const SignupSchema = new mongoose.Schema({
 // module.exports = mongoose.model('Signup', SignupSchema);
 
 export const Signup = mongoose.model('Signup', SignupSchema);
+
+// Add default export as well
+export default Signup;

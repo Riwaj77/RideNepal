@@ -111,4 +111,14 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.get('/count', async (req, res) => {
+  try {
+    const userCount = await Signup.countDocuments();
+    res.status(200).json({ totalUsers: userCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving user count', error: error.message });
+  }
+});
+
+
 export default router;

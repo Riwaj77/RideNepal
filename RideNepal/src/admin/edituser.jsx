@@ -62,7 +62,9 @@ export default function EditUser() {
   
       setUsers(users.map(user => (user._id === editingUser._id ? editingUser : user)));
       setEditingUser(null);
+      alert("Saved Successfully!");
     } catch (error) {
+      alert("Failed to save changes. Please try again.");
       console.error('Error updating user:', error);
     }
   };
@@ -100,7 +102,7 @@ export default function EditUser() {
         <main className="ad_main">
           <div className="e_page-header">
             <button className="e_back-button" onClick={() => navigate('/adDashboard')}>
-              <ArrowLeft size={16} /> Back to Dashboard
+              <ArrowLeft size={32} />
             </button>
             <h2>User Management</h2>
           </div>

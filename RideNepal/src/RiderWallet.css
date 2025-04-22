@@ -1,0 +1,300 @@
+/* Rider Wallet Container */
+.rider-wallet-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1b1d28;
+  color: #f1ebc3;
+}
+
+/* Header Styles */
+.rider-header {
+  background-color: #2d2d2d;
+  padding: 15px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.rider-header-logo {
+  width: 40px;
+  height: 40px;
+  background-color: #ffde59;
+  border-radius: 50%;
+}
+
+.rider-status {
+  margin-left: auto;
+}
+
+.rider-status-toggle {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rider-status-toggle.online {
+  background-color: #ffde59;
+  color: #1b1d28;
+}
+
+.rider-status-toggle.offline {
+  background-color: #ff4444;
+  color: #f1ebc3;
+}
+
+.rider-nav-link {
+  color: #f1ebc3;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 20px;
+  transition: color 0.3s ease;
+}
+
+.rider-nav-link:hover {
+  color: #ffde59;
+}
+
+/* Main Content */
+.rider-wallet-content {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 80px auto 0;
+  flex: 1;
+}
+
+/* Wallet Balance Section */
+.rider-wallet-balance {
+  background: #2d2d2d;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.rider-wallet-balance h2 {
+  color: #f1ebc3;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.rider-balance-amount {
+  font-size: 48px;
+  font-weight: bold;
+  color: #ffde59;
+  margin-bottom: 30px;
+}
+
+.rider-currency {
+  font-size: 24px;
+  margin-right: 5px;
+}
+
+.rider-wallet-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.rider-add-money-btn,
+.rider-withdraw-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rider-add-money-btn {
+  background-color: #ffde59;
+  color: #1b1d28;
+}
+
+.rider-add-money-btn:hover {
+  background-color: #ffd700;
+  transform: translateY(-2px);
+}
+
+.rider-withdraw-btn {
+  background-color: #ff4444;
+  color: #f1ebc3;
+}
+
+.rider-withdraw-btn:hover {
+  background-color: #cc0000;
+  transform: translateY(-2px);
+}
+
+/* Transactions Section */
+.rider-transactions {
+  background: #2d2d2d;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.rider-transactions h2 {
+  color: #f1ebc3;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.rider-transaction-list {
+  display: grid;
+  gap: 15px;
+}
+
+.rider-transaction-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #1b1d28;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.rider-transaction-card:hover {
+  transform: translateY(-2px);
+}
+
+.rider-transaction-info {
+  flex: 1;
+}
+
+.rider-transaction-type {
+  font-weight: bold;
+  color: #f1ebc3;
+  margin-bottom: 5px;
+}
+
+.rider-transaction-date {
+  font-size: 14px;
+  color: #f1ebc3;
+}
+
+.rider-transaction-amount {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.rider-transaction-amount.credit {
+  color: #ffde59;
+}
+
+.rider-transaction-amount.debit {
+  color: #ff4444;
+}
+
+.rider-no-transactions {
+  text-align: center;
+  padding: 40px;
+  color: #f1ebc3;
+  font-size: 18px;
+}
+
+/* Footer Styles */
+.rider-footer {
+  background-color: #2d2d2d;
+  padding: 20px;
+  margin-top: auto;
+}
+
+.flex-row-feb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #f1ebc3;
+}
+
+.round-place-px {
+  width: 20px;
+  height: 20px;
+  background-color: #ffde59;
+  border-radius: 50%;
+}
+
+.footer-navigation {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-navigation a {
+  color: #f1ebc3;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-navigation a:hover {
+  color: #ffde59;
+}
+
+.flex-row-d {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.black-blue-minimalist-d {
+  width: 20px;
+  height: 20px;
+  background-color: #ffde59;
+  border-radius: 50%;
+}
+
+.phone-number {
+  color: #f1ebc3;
+}
+
+.all-rights-reserved {
+  color: #f1ebc3;
+  text-align: center;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rider-wallet-actions {
+    flex-direction: column;
+  }
+
+  .rider-add-money-btn,
+  .rider-withdraw-btn {
+    width: 100%;
+  }
+
+  .rider-transaction-card {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .flex-row-feb {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer-navigation {
+    justify-content: center;
+  }
+} 

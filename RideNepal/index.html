@@ -1,10 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/src/assets/images/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RideNepal</title>
+    <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+    <script>
+      // Initialize Khalti immediately
+      window.addEventListener('load', function() {
+        if (window.KhaltiCheckout) {
+          console.log('Khalti Checkout loaded successfully');
+          window.khaltiReady = true;
+        } else {
+          console.error('Khalti Checkout failed to load');
+          // Try loading the sandbox version as fallback
+          const script = document.createElement('script');
+          script.src = 'https://sandbox.khalti.com/v2/khalti-checkout.js';
+          script.onload = function() {
+            if (window.KhaltiCheckout) {
+              console.log('Khalti Sandbox Checkout loaded successfully');
+              window.khaltiReady = true;
+            } else {
+              console.error('Both Khalti versions failed to load');
+            }
+          };
+          script.onerror = function() {
+            console.error('Failed to load Khalti Sandbox script');
+          };
+          document.head.appendChild(script);
+        }
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

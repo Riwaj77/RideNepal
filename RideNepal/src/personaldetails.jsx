@@ -17,23 +17,46 @@ export default function Personaldetails({ toggleMenu }) {
       console.error("No token found.");
       setError("No token found. Please log in.");
       setLoading(false);
+      
+      // Redirect to login after showing the error
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
       return;
     }
 
+    console.log("Fetching user data with token:", token);
+    
     axios
       .get("http://localhost:4000/user", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
+        console.log("User data response:", response.data);
         setUser(response.data);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
-        setError("Failed to fetch user data. Please try again.");
+        
+        // Check for token related errors
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          setError("Authentication failed. Please log in again.");
+          
+          // Clear invalid token
+          localStorage.removeItem("token");
+          
+          // Redirect to login
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        } else {
+          setError("Failed to fetch user data. Please try again.");
+        }
+        
         setLoading(false);
       });
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="pd_main-container">
@@ -77,7 +100,7 @@ export default function Personaldetails({ toggleMenu }) {
             {/* Profile Picture */}
             <div className="pd_ellipse">
               <img
-                src={user.profileImage || "/default-profile.png"}  // Default image if none provided
+                src={user.image || "/default-profile.png"}  // Default image if none provided
                 alt="Profile"
                 className="pd_user-profile-img"
               />

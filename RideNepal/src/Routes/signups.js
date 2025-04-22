@@ -1,85 +1,3 @@
-// import express from 'express';
-// import nodemailer from 'nodemailer';
-// import crypto from 'crypto';
-// import { Signup } from '../Model/Signup.js';
-
-// const router = express.Router();
-
-// // Nodemailer Transporter
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'riwaj.ridenepal@gmail.com',  // Replace with your Gmail
-//         pass: 'lfrt brho emgs nrsk',   // Replace with App Password
-//     },
-// });
-
-// // Function to generate a 6-digit OTP
-// const generateOTP = () => {
-//     return crypto.randomInt(100000, 999999).toString();
-// };
-
-// // Signup Route with OTP
-// router.post('/', async (req, res) => {
-//     try {
-//         console.log('Request body:', req.body);
-
-//         // Validate required fields
-//         if (!req.body.firstname || !req.body.lastname || !req.body.email || !req.body.phone) {
-//             return res.status(400).json({ message: 'First name, last name, email, and phone are required' });
-//         }
-
-//         // Generate OTP
-//         const otp = generateOTP();
-//         console.log('Generated OTP:', otp);
-
-//         // Save user details along with OTP
-//         const signup = new Signup({
-//             firstname: req.body.firstname,
-//             lastname: req.body.lastname,
-//             email: req.body.email,
-//             phone: req.body.phone,
-//             otp: otp,  // Store OTP temporarily (consider using Redis for expiration)
-//             otpExpires: Date.now() + 5 * 60 * 1000 // OTP valid for 5 minutes
-//         });
-
-//         await signup.save();
-//         console.log('Signup saved:', signup);
-
-//         // Send OTP via email
-//         const mailOptions = {
-//             from: 'riwaj.ridenepal@gmail.com',
-//             to: req.body.email,
-//             subject: 'Your OTP Verification Code',
-//             text: `Your OTP code is: ${otp}. It is valid for 5 minutes.`,
-//         };
-
-//         transporter.sendMail(mailOptions, (error, info) => {
-//             if (error) {
-//                 console.error('Error sending email:', error);
-//                 return res.status(500).json({ message: 'Error sending OTP email', error: error.message });
-//             }
-//             console.log('OTP Email sent:', info.response);
-//             res.status(201).json({ message: 'Signup successful. OTP sent to email.' });
-//         });
-
-//     } catch (error) {
-//         console.log('Error during signup:', error);
-//         res.status(400).json({ message: 'Error while signing up', error: error.message });
-//     }
-// });
-// router.get('/', async (req, res) => {
-//     try {
-//         const signups = await Signup.find();
-//         res.json(signups);
-//     } catch (error) {
-//         console.error('Error retrieving signup data:', error);
-//         res.status(500).json({ message: 'Error retrieving signup data', error: error.message });
-//     }
-// });
-
-// export default router;
-
 
 import express from 'express';
 import nodemailer from 'nodemailer';
@@ -157,7 +75,10 @@ router.post('/', upload.single('image'), async (req, res) => {
                 return res.status(500).json({ message: 'Error sending OTP email', error: error.message });
             }
             console.log('OTP Email sent:', info.response);
-            res.status(201).json({ message: 'Signup successful. OTP sent to email.' });
+            res.status(201).json({ 
+                message: 'Signup successful. OTP sent to email.',
+                email: req.body.email // Pass the email along with the message
+            });
         });
 
     } catch (error) {

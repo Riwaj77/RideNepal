@@ -1,0 +1,243 @@
+.editrp-container {
+  min-height: 100vh;
+  background-color: #1b1d28;
+}
+
+.editrp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #f1ebc3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.editrp-header-logo {
+  width: 120px;
+  height: 40px;
+  background-image: url('/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.editrp-status {
+  margin-right: auto;
+  margin-left: 2rem;
+}
+
+.editrp-status-toggle {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editrp-status-toggle.online {
+  background-color: #ffde59;
+  color: #1b1d28;
+}
+
+.editrp-status-toggle.offline {
+  background-color: #f44336;
+  color: white;
+}
+
+.editrp-nav-link {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.editrp-nav-link:hover {
+  color: #007bff;
+}
+
+.editrp-dashboard {
+  padding: 6rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.editrp-profile-card {
+  background-color: #1b1d28;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px #f1ebc3;
+  padding: 2rem;
+}
+
+.editrp-profile-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.editrp-profile-header h2 {
+  color: #ffde59;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.editrp-profile-image-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.editrp-profile-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.editrp-profile-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #007bff;
+  padding: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editrp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.editrp-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.editrp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editrp-form-label {
+  font-weight: 500;
+  color: #f1ebc3;
+}
+
+.editrp-form-input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: #f1ebc3;
+}
+
+.editrp-form-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.editrp-document-upload-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.editrp-document-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editrp-document-preview {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.editrp-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.editrp-save-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #ffde59;
+  color: #1b1d28;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editrp-save-button:hover {
+  background-color: #e3be2c;
+}
+
+.editrp-save-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.editrp-cancel-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editrp-cancel-button:hover {
+  background-color: #e9ecef;
+}
+
+.editrp-error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.editrp-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.editrp-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

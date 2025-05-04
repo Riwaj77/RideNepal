@@ -9,6 +9,7 @@ import adminrouter from './Routes/admin.js';
 import verifyrouter from './Routes/verify.js';
 import paymentRoutes from './Routes/payments.js';
 import rideHistoryRouter from './Routes/ridehistories.js';
+import promoRouter from './Routes/promo.js';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
@@ -35,6 +36,7 @@ app.use('/admin', adminrouter);
 app.use('/verify-otp', verifyrouter);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/ridehistories', rideHistoryRouter);
+app.use('/api/promos', promoRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

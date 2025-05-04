@@ -56,3 +56,27 @@
     font-size: 14px;
   }
   
+  .dev-tools {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .dev-btn {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .dev-btn:hover {
+    background-color: #dee2e6;
+  }
+  

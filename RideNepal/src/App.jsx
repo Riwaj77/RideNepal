@@ -29,6 +29,7 @@ import EditRiderProfile from './Editrp';
 import RiderTracking from './RiderTracking';
 import ContactUs from './ContactUs';
 import ErrorBoundary from './ErrorBoundary';
+import EditPromo from './admin/EditPromo'
 
 function App() {
   // State to control the menu overlay
@@ -146,6 +147,10 @@ function App() {
         element: <AdminLogin />,
         },
       {
+        path: "/adminlogin",
+        element: <AdminLogin />,
+        },
+      {
         path: "/edituser",
         element: <EditUser />,
         },
@@ -164,6 +169,10 @@ function App() {
     {
       path: "/live-tracking",
       element: <ErrorBoundary><LiveTracking /></ErrorBoundary>,
+    },
+    {
+      path: "/editpromo",
+      element: <EditPromo />,
     },
   ]);
 

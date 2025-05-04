@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2, Search } from 'lucide-react';
+import { Edit, Trash2, User, Truck, Tag, BarChart2, ArrowLeft, Search } from 'lucide-react';
 import axios from 'axios';
 import './editriders.css';
 
-export default function EditRiders() {
+export default function EditRider() {
   const navigate = useNavigate();
   const [riders, setRiders] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -64,10 +64,31 @@ export default function EditRiders() {
       <div className="ad_layout">
         <aside className="ad_sidebar">
           <nav className="ad_sidebar-nav">
-            <ul>
-              <li><a href="/adDashboard">Dashboard</a></li>
-              <li><a href="/edituser">Users</a></li>
-              <li className="active"><a href="/editrider">Riders</a></li>
+          <ul>
+              <li>
+                <a href="/adDashboard">
+                  <BarChart2 size={18} style={{marginRight: '8px'}} /> 
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a href="/edituser">
+                  <User size={18} style={{marginRight: '8px'}} /> 
+                  Users
+                </a>
+              </li>
+              <li  className="ad_active">
+                <a href="/editrider">
+                  <Truck size={18} style={{marginRight: '8px'}} /> 
+                  Riders
+                </a>
+              </li>
+              <li>
+                <a href="/editpromo">
+                  <Tag size={18} style={{marginRight: '8px'}} /> 
+                  Promo Codes
+                </a>
+              </li>
             </ul>
           </nav>
         </aside>

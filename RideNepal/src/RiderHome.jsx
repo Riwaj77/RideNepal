@@ -140,10 +140,16 @@ export default function RiderHome() {
           
           const onlineData = {
             socketId: newSocket.id,
-            riderId: currentRider.id
+            riderId: currentRider.id,
+            vehicle: 'bike' // Add vehicle type to match with requests
           };
           
           newSocket.emit('rider-online', onlineData);
+          // Request any pending rides on reconnect if online
+          newSocket.emit('fetch-pending-rides', { 
+            riderId: currentRider.id,
+            vehicle: 'bike' // Add vehicle type to match with requests
+          });
           console.log('Sent rider-online with data:', onlineData);
         }
       });
@@ -163,6 +169,31 @@ export default function RiderHome() {
 
       newSocket.on('reconnect', (attemptNumber) => {
         console.log(`Socket reconnected after ${attemptNumber} attempts`);
+      });
+
+      // Add listener for pending rides response
+      newSocket.on('pending-rides', (rides) => {
+        console.log('Received pending rides:', rides);
+        if (Array.isArray(rides) && rides.length > 0) {
+          setAvailableRides(prevRides => {
+            // Filter out any duplicates and add new rides
+            const existingRideIds = new Set(prevRides.map(ride => ride.id || ride.rideId));
+            const newRides = rides.filter(ride => {
+              const rideId = ride.id || ride.rideId;
+              return !existingRideIds.has(rideId);
+            });
+            
+            // Notify the server about the number of new rides received
+            if (newRides.length > 0) {
+              newSocket.emit('rider-received-rides', {
+                riderId: currentRider.id,
+                receivedRides: newRides.map(ride => ride.id || ride.rideId)
+              });
+            }
+            
+            return [...prevRides, ...newRides];
+          });
+        }
       });
 
       // Listen for new booking requests
@@ -203,6 +234,12 @@ export default function RiderHome() {
             } else if (!updatedBooking.rideId) {
               updatedBooking.rideId = updatedBooking.id;
             }
+            
+            // Notify the server that we received the booking
+            newSocket.emit('rider-received-booking', {
+              riderId: currentRider.id,
+              bookingId: bookingId
+            });
             
             return [...prevRides, updatedBooking];
           });
@@ -277,12 +314,19 @@ export default function RiderHome() {
     if (newStatus) {
       const onlineData = {
         socketId: socket.id,
-        riderId: currentRider.id
+        riderId: currentRider.id,
+        vehicle: 'bike' // Add vehicle type to match with requests
       };
       console.log('Emitting rider-online event with data:', onlineData);
       
       // Emit rider online status with rider ID
       socket.emit('rider-online', onlineData);
+      
+      // Request any pending rides
+      socket.emit('fetch-pending-rides', { 
+        riderId: currentRider.id,
+        vehicle: 'bike' // Add vehicle type to match with requests
+      });
       
       // Force a reconnect to ensure clean state and receive all events
       socket.disconnect().connect();

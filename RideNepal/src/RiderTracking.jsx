@@ -8,6 +8,18 @@ import './RiderTracking.css';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 
+// Fix for default Leaflet marker icon issues - must be added before any marker creation
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+',
+  shadowUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+',
+  iconSize: [0, 0],
+  shadowSize: [0, 0],
+  iconAnchor: [0, 0],
+  shadowAnchor: [0, 0],
+  popupAnchor: [0, 0]
+});
+
 const RiderTracking = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,7 +50,11 @@ const RiderTracking = () => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const routingControlRef = useRef(null);
-  const riderMarkerRef = useRef(null); // Reference for rider marker
+  const markersRef = useRef({
+    rider: null,
+    pickup: null,
+    destination: null
+  });
   const socketRef = useRef(null);
   const [error, setError] = useState('');
   const [rideStatus, setRideStatus] = useState(ride?.status || 'accepted');
@@ -55,14 +71,14 @@ const RiderTracking = () => {
 
   // Custom marker icons
   const pickupIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-green.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
   });
 
   const destinationIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-red.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -302,18 +318,18 @@ const RiderTracking = () => {
       }).addTo(mapInstance);
 
       // Add pickup marker
-      const startMarker = L.marker([pickupCoords.lat, pickupCoords.lng], {
+      markersRef.current.pickup = L.marker([pickupCoords.lat, pickupCoords.lng], {
         icon: pickupIcon
       }).addTo(mapInstance);
       
       // Add destination marker
-      const endMarker = L.marker([destCoords.lat, destCoords.lng], {
+      markersRef.current.destination = L.marker([destCoords.lat, destCoords.lng], {
         icon: destinationIcon
       }).addTo(mapInstance);
 
       // Add popups
-      startMarker.bindPopup(`<b>Pickup:</b><br>${pickup.address || 'Pickup Location'}`);
-      endMarker.bindPopup(`<b>Destination:</b><br>${destination.address || 'Destination Location'}`);
+      markersRef.current.pickup.bindPopup(`<b>Pickup:</b><br>${pickup.address || 'Pickup Location'}`);
+      markersRef.current.destination.bindPopup(`<b>Destination:</b><br>${destination.address || 'Destination Location'}`);
       
       // Try to add routing
       try {
@@ -335,7 +351,6 @@ const RiderTracking = () => {
         routingControlRef.current = routingControl;
       } catch (routingError) {
         console.error("Error initializing routing:", routingError);
-        // Continue with basic map markers even if routing fails
       }
       
       // Fit bounds to show both markers
@@ -350,7 +365,6 @@ const RiderTracking = () => {
       setError("Could not initialize map. Please reload the page.");
     }
 
-    // Return cleanup function
     return cleanupMap;
   }, [pickup, destination]);
   
@@ -358,22 +372,11 @@ const RiderTracking = () => {
   const cleanupMap = () => {
     console.log("Cleaning up map resources");
     
-    // Remove rider marker
-    if (riderMarkerRef.current) {
-      try {
-        if (mapInstanceRef.current) {
-          mapInstanceRef.current.removeLayer(riderMarkerRef.current);
-        }
-        riderMarkerRef.current = null;
-      } catch (error) {
-        console.error("Error removing rider marker:", error);
-      }
-    }
-    
-    // Remove routing control
+    // Remove routing control first
     if (routingControlRef.current) {
       try {
         if (mapInstanceRef.current) {
+          routingControlRef.current.getPlan().setWaypoints([]);  // Clear waypoints first
           mapInstanceRef.current.removeControl(routingControlRef.current);
         }
         routingControlRef.current = null;
@@ -381,8 +384,20 @@ const RiderTracking = () => {
         console.error("Error removing routing control:", error);
       }
     }
+
+    // Remove rider marker
+    if (markersRef.current.rider) {
+      try {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.removeLayer(markersRef.current.rider);
+        }
+        markersRef.current.rider = null;
+      } catch (error) {
+        console.error("Error removing rider marker:", error);
+      }
+    }
     
-    // Clean up the map instance
+    // Clean up the map instance last
     if (mapInstanceRef.current) {
       try {
         mapInstanceRef.current.off();
@@ -400,19 +415,19 @@ const RiderTracking = () => {
 
     try {
       // Remove previous marker if exists
-      if (riderMarkerRef.current) {
-        mapInstanceRef.current.removeLayer(riderMarkerRef.current);
+      if (markersRef.current.rider) {
+        mapInstanceRef.current.removeLayer(markersRef.current.rider);
       }
 
       // Add new marker with valid position
       const lat = currentPosition.lat || 27.7172;
       const lng = currentPosition.lng || 85.3240;
       
-      riderMarkerRef.current = L.marker([lat, lng], {
+      markersRef.current.rider = L.marker([lat, lng], {
         icon: riderIcon
       }).addTo(mapInstanceRef.current);
       
-      riderMarkerRef.current.bindPopup("Your current location");
+      markersRef.current.rider.bindPopup("Your current location");
       
       console.log(`Updated rider position to: ${lat}, ${lng}`);
     } catch (error) {

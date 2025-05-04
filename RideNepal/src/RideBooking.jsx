@@ -4,25 +4,27 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './RideBooking.css';
 import io from 'socket.io-client';
+import { socket } from './socket';
+import { Tag } from 'react-feather';
 
 // Fix for default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
 // Custom marker icons
 const startIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-green.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
 
 const endIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers@master/img/marker-icon-2x-red.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -59,6 +61,17 @@ const RideBooking = () => {
   const [bookingStatus, setBookingStatus] = useState('');
   const [selectedRider, setSelectedRider] = useState(null);
   const [locationPermission, setLocationPermission] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [currentRideId, setCurrentRideId] = useState(null);
+  const [pickupLocation, setPickupLocation] = useState('');
+  const [dropLocation, setDropLocation] = useState('');
+  const [vehicleType, setVehicleType] = useState('bike');
+  const [promoCode, setPromoCode] = useState('');
+  const [discountedFare, setDiscountedFare] = useState(0);
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState('');
+  const [showPromoInput, setShowPromoInput] = useState(false);
 
   const center = {
     lat: 27.7172,
@@ -264,7 +277,14 @@ const RideBooking = () => {
         mapInstanceRef.current.fitBounds(routeLayerRef.current.getBounds(), { padding: [50, 50] });
 
         const distance = data.routes[0].distance / 1000;
-        setFare(calculateFare(distance));
+        const calculatedFare = calculateFare(distance);
+        setFare(calculatedFare);
+        // Reset promo related states when recalculating fare
+        setPromoApplied(false);
+        setDiscountedFare(0);
+        setPromoCode('');
+        setPromoError('');
+        setShowPromoInput(false);
       }
     } catch (error) {
       console.error('Error calculating route:', error);
@@ -274,7 +294,7 @@ const RideBooking = () => {
   const searchLocation = async () => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}&countrycodes=np`
       );
       const data = await response.json();
       setSearchResults(data);
@@ -346,6 +366,14 @@ const RideBooking = () => {
         setBookingStatus(`Request sent to ${data.sentToRiders} available riders...`);
       }
     });
+
+    // Listen for rider availability updates
+    socketRef.current.on('rider-availability-update', (data) => {
+      console.log('Rider availability update received:', data);
+      if (data.availableRiders > 0) {
+        setBookingStatus(`Request sent to ${data.availableRiders} available riders...`);
+      }
+    });
     
     // Listen for ride acceptance
     socketRef.current.on('ride-accepted', (data) => {
@@ -412,6 +440,61 @@ const RideBooking = () => {
     };
   }, [navigate, currentLocation, currentAddress, destination, destinationAddress, fare]);
 
+  const handleCancelRide = () => {
+    setShowCancelConfirm(true);
+  };
+
+  const confirmCancelRide = () => {
+    if (currentRideId && socketRef.current) {
+      socketRef.current.emit('cancel-ride', { rideId: currentRideId });
+      setIsSearching(false);
+      setBookingStatus('');
+      setCurrentRideId(null);
+      localStorage.removeItem('pendingRide');
+    }
+    setShowCancelConfirm(false);
+  };
+
+  const handleCancelDialogClose = () => {
+    setShowCancelConfirm(false);
+  };
+
+  const handleApplyPromo = () => {
+    // Reset previous promo application
+    setPromoError('');
+    setPromoApplied(false);
+    setDiscountedFare(0);
+    
+    // Validate promo code
+    if (!promoCode || promoCode.trim() === '') {
+      setPromoError('Please enter a promo code');
+      return;
+    }
+    
+    // List of valid promo codes and their discount percentages
+    const validPromos = {
+      'RIDE10': 10,
+      'RIDE20': 20,
+      'RIDE25': 25,
+      'NEPAL50': 50,
+      'FIRST100': 100 // 100% discount (free ride)
+    };
+    
+    // Check if entered promo code is valid
+    if (validPromos[promoCode.toUpperCase()]) {
+      const discountPercentage = validPromos[promoCode.toUpperCase()];
+      const discount = (fare * discountPercentage) / 100;
+      const newFare = Math.max(0, Math.round(fare - discount)); // Ensure fare doesn't go below 0
+      
+      setDiscountedFare(newFare);
+      setPromoApplied(true);
+      setPromoError('');
+      setShowPromoInput(false); // Hide promo input after successful application
+    } else {
+      setPromoError('Invalid promo code');
+    }
+  };
+
   const handleBookRide = async () => {
     if (!currentLocation || !destination) {
       setBookingStatus('Please select both pickup and destination locations');
@@ -419,11 +502,16 @@ const RideBooking = () => {
     }
 
     try {
+      setIsSearching(true);
       setBookingStatus('Finding available riders...');
       
       // Generate a unique ride ID
       const rideId = `ride-${Date.now()}`;
+      setCurrentRideId(rideId);
       console.log('Generated ride ID:', rideId);
+      
+      // Use discounted fare if promo is applied
+      const finalFare = promoApplied ? discountedFare : fare;
       
       // Prepare the booking data
       const bookingData = {
@@ -437,7 +525,10 @@ const RideBooking = () => {
           address: destinationAddress,
           coordinates: destination
         },
-        fare,
+        fare: finalFare,
+        originalFare: fare,
+        promoApplied: promoApplied,
+        promoCode: promoApplied ? promoCode : '',
         vehicle: selectedVehicle,
         status: 'pending',
         timestamp: new Date().toISOString(),
@@ -467,7 +558,7 @@ const RideBooking = () => {
           const timeout = setTimeout(() => {
             console.log('Socket connection timed out, proceeding anyway');
             resolve(false);
-      }, 3000);
+          }, 3000);
           
           socketRef.current.once('connect', () => {
             console.log('Socket connected successfully');
@@ -484,16 +575,33 @@ const RideBooking = () => {
         destination: destination,
         pickupAddress: currentAddress,
         destinationAddress: destinationAddress,
-        fare: fare,
+        fare: finalFare,
         timestamp: new Date().toISOString()
       }));
       
-      // Emit the ride request
+      // First store the pending ride in the server's memory
+      socketRef.current.emit('store-pending-ride', bookingData);
+      
+      // Then emit the ride request events
       console.log(`Emitting request-ride event with socket ID: ${socketRef.current.id}`);
       socketRef.current.emit('request-ride', bookingData);
-      
-      // Also emit as new-booking for backward compatibility
       socketRef.current.emit('new-booking', bookingData);
+      
+      // Set up a listener for this specific ride's status updates
+      socketRef.current.on(`ride-${rideId}-status`, (status) => {
+        console.log(`Received status update for ride ${rideId}:`, status);
+        if (status.availableRiders !== undefined) {
+          setBookingStatus(`Request sent to ${status.availableRiders} available riders...`);
+        }
+      });
+
+      // Listen for rider availability changes for this specific ride
+      socketRef.current.on(`ride-${rideId}-rider-available`, (data) => {
+        console.log(`New rider available for ride ${rideId}:`, data);
+        if (data.availableRiders > 0) {
+          setBookingStatus(`Request sent to ${data.availableRiders} available riders...`);
+        }
+      });
       
     } catch (error) {
       console.error('Error booking ride:', error);
@@ -584,6 +692,37 @@ const RideBooking = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    socket.on('ride-accepted', (data) => {
+      setIsSearching(false);
+      setCurrentRideId(null);
+      // Handle ride acceptance
+    });
+
+    socket.on('ride-cancelled', () => {
+      setIsSearching(false);
+      setCurrentRideId(null);
+      // Show cancellation message or handle as needed
+    });
+
+    return () => {
+      socket.off('ride-accepted');
+      socket.off('ride-cancelled');
+    };
+  }, []);
+
+  // Debounced search for location
+  useEffect(() => {
+    if (!searchQuery) {
+      setSearchResults([]);
+      return;
+    }
+    const handler = setTimeout(() => {
+      searchLocation();
+    }, 500); // 500ms debounce
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   return (
     <div className="ride-booking-container">
       <h1>Book Your Ride</h1>
@@ -622,7 +761,7 @@ const RideBooking = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button onClick={searchLocation}>Search</button>
+                {/* <button onClick={searchLocation}>Search</button> */}
               </div>
               {searchResults.length > 0 && (
                 <div className="search-results">
@@ -643,16 +782,82 @@ const RideBooking = () => {
           {fare > 0 && (
             <div className="fare-details">
               <h3>Estimated Fare</h3>
-              <p>NPR {fare}</p>
-              <button 
-                className="book-btn" 
-                onClick={handleBookRide}
-                disabled={bookingStatus === 'Finding available riders...' || bookingStatus === 'Rider is on the way!'}
-              >
-                {bookingStatus === 'Finding available riders...' ? 'Finding Riders...' : 
-                 bookingStatus === 'Rider is on the way!' ? 'Rider is Coming!' : 
-                 'Book Now'}
-              </button>
+              {promoApplied ? (
+                <div className="p_fare-with-discount">
+                  <p className="p_original-fare">NPR {fare}</p>
+                  <p>NPR {discountedFare}</p>
+                  <div className="p_promo-applied">
+                    <span>Promo {promoCode} applied!</span>
+                    <button 
+                      className="p_remove-promo-btn"
+                      onClick={() => {
+                        setPromoApplied(false);
+                        setDiscountedFare(0);
+                        setPromoCode('');
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p>NPR {fare}</p>
+                </>
+              )}
+              
+              <div className="fare-actions">
+                {!promoApplied && (
+                  <div className="p_promo-section">
+                    {showPromoInput ? (
+                      <div className="p_promo-input-container">
+                        <input 
+                          type="text" 
+                          placeholder="Enter promo code"
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                          className="p_promo-input"
+                        />
+                        {promoError && <p className="p_promo-error">{promoError}</p>}
+                        <div className="p_promo-actions">
+                          <button 
+                            className="p_apply-promo-btn"
+                            onClick={handleApplyPromo}
+                          >
+                            Apply
+                          </button>
+                          <button 
+                            className="p_cancel-promo-btn"
+                            onClick={() => {
+                              setShowPromoInput(false);
+                              setPromoCode('');
+                              setPromoError('');
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button 
+                        className="p_show-promo-btn"
+                        onClick={() => setShowPromoInput(true)}
+                      >
+                        Apply Promo
+                      </button>
+                    )}
+                  </div>
+                )}
+                
+                <button 
+                  className="book-btn" 
+                  onClick={handleBookRide}
+                  disabled={isSearching}
+                >
+                  {isSearching ? 'FINDING RIDERS...' : 'BOOK NOW'}
+                </button>
+              </div>
+              
               {bookingStatus && <p className="booking-status">{bookingStatus}</p>}
             </div>
           )}
@@ -662,6 +867,35 @@ const RideBooking = () => {
           <div ref={mapRef} style={{ height: '100%', minHeight: '600px' }}></div>
         </div>
       </div>
+
+      {isSearching && (
+        <div className="searching-overlay">
+          <div className="searching-content">
+            <div className="searching-spinner"></div>
+            <h2>Searching for a ride...</h2>
+            <button className="cancel-btn" onClick={handleCancelRide}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCancelConfirm && (
+        <div className="confirmation-dialog-overlay">
+          <div className="confirmation-dialog">
+            <h3>Cancel Ride?</h3>
+            <p>Are you sure you want to cancel this ride?</p>
+            <div className="dialog-buttons">
+              <button className="confirm-btn" onClick={confirmCancelRide}>
+                Yes, Cancel
+              </button>
+              <button className="cancel-btn" onClick={handleCancelDialogClose}>
+                No, Keep Searching
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

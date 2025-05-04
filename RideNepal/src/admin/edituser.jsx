@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, Trash2, Search } from 'lucide-react';
+import { Edit, Trash2, User, Truck, Tag, BarChart2, ArrowLeft, Search } from 'lucide-react';
 import axios from 'axios';
 import './edituser.css';
 
@@ -86,15 +86,30 @@ export default function EditUser() {
       <div className="ad_layout">
         <aside className="ad_sidebar">
           <nav className="ad_sidebar-nav">
-            <ul>
+          <ul>
               <li>
-                <a href="/adDashboard">Dashboard</a>
+                <a href="/adDashboard">
+                  <BarChart2 size={18} style={{marginRight: '8px'}} /> 
+                  Dashboard
+                </a>
               </li>
-              <li className="active">
-                <a href="/edituser">Users</a>
+              <li className="ad_active">
+                <a href="/edituser">
+                  <User size={18} style={{marginRight: '8px'}} /> 
+                  Users
+                </a>
               </li>
               <li>
-                <a href="/editrider">Riders</a>
+                <a href="/editrider">
+                  <Truck size={18} style={{marginRight: '8px'}} /> 
+                  Riders
+                </a>
+              </li>
+              <li>
+                <a href="/editpromo">
+                  <Tag size={18} style={{marginRight: '8px'}} /> 
+                  Promo Codes
+                </a>
               </li>
             </ul>
           </nav>

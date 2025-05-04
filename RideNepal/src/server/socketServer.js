@@ -15,9 +15,10 @@ const io = new Server(server, {
   }
 });
 
-// Store active rides and online riders
+// Store active rides, online riders, and pending rides
 const activeRides = new Map();
-const onlineRiders = new Map(); // Change to Map to store socket IDs
+const onlineRiders = new Map();
+const pendingRides = new Map(); // Store pending rides
 
 // Debug function
 const debugLog = (message, data) => {
@@ -29,7 +30,25 @@ const debugLog = (message, data) => {
 const logOnlineRiders = () => {
   const riderEntries = Array.from(onlineRiders.entries());
   debugLog(`Currently ${riderEntries.length} riders online:`, 
-    riderEntries.map(([riderId, socketId]) => `${riderId}: ${socketId}`).join(', '));
+    riderEntries.map(([riderId, data]) => `${riderId}: ${data.socketId} (${data.vehicle})`).join(', '));
+};
+
+// Function to broadcast ride to available riders
+const broadcastRideToAvailableRiders = (booking) => {
+  let sentToCount = 0;
+  const vehicle = booking.vehicle || 'bike';
+
+  onlineRiders.forEach((riderData, riderId) => {
+    if (riderData.vehicle === vehicle) {
+      const targetSocket = io.sockets.sockets.get(riderData.socketId);
+      if (targetSocket) {
+        targetSocket.emit('new-booking', booking);
+        sentToCount++;
+      }
+    }
+  });
+
+  return sentToCount;
 };
 
 debugLog('Socket server starting...');
@@ -37,22 +56,53 @@ debugLog('Socket server starting...');
 io.on('connection', (socket) => {
   debugLog('Client connected:', socket.id);
 
+  // Handle storing pending rides
+  socket.on('store-pending-ride', (booking) => {
+    debugLog('Storing pending ride:', booking);
+    if (booking && (booking.id || booking.rideId)) {
+      const rideId = booking.id || booking.rideId;
+      pendingRides.set(rideId, booking);
+      debugLog(`Stored pending ride ${rideId}`);
+    }
+  });
+
   // Handle rider going online/offline
   socket.on('rider-online', (data) => {
     debugLog('Rider online data received:', data);
-    const { socketId, riderId } = data;
+    const { socketId, riderId, vehicle = 'bike' } = data;
     
     if (!riderId) {
       debugLog('Error: riderId is missing in rider-online event');
       return;
     }
     
-    // Store rider ID with socket ID
-    onlineRiders.set(riderId, socket.id);
-    debugLog(`Rider ${riderId} is now online with socket ${socket.id}`);
+    // Store rider ID with socket ID and vehicle type
+    onlineRiders.set(riderId, { socketId: socket.id, vehicle });
+    debugLog(`Rider ${riderId} is now online with socket ${socket.id} for ${vehicle}`);
     
     // Log all online riders
     logOnlineRiders();
+    
+    // Send pending rides to the newly online rider
+    const matchingPendingRides = Array.from(pendingRides.values())
+      .filter(ride => ride.vehicle === vehicle);
+    
+    if (matchingPendingRides.length > 0) {
+      debugLog(`Sending ${matchingPendingRides.length} pending rides to rider ${riderId}`);
+      socket.emit('pending-rides', matchingPendingRides);
+      
+      // Update ride status for each pending ride
+      matchingPendingRides.forEach(ride => {
+        const rideId = ride.id || ride.rideId;
+        const availableRiders = Array.from(onlineRiders.values())
+          .filter(r => r.vehicle === vehicle).length;
+        
+        io.emit(`ride-${rideId}-status`, {
+          availableRiders,
+          status: 'pending'
+        });
+      });
+    }
     
     // Emit back confirmation
     socket.emit('rider-online-confirmed', { success: true, riderId });
@@ -60,7 +110,7 @@ io.on('connection', (socket) => {
 
   socket.on('rider-offline', (data) => {
     debugLog('Rider offline data received:', data);
-    const { socketId, riderId } = data;
+    const { riderId } = data;
     
     if (!riderId) {
       debugLog('Error: riderId is missing in rider-offline event');
@@ -69,12 +119,37 @@ io.on('connection', (socket) => {
     
     onlineRiders.delete(riderId);
     debugLog(`Rider ${riderId} is now offline`);
+
+    // Update ride status for all pending rides
+    pendingRides.forEach((ride, rideId) => {
+      const vehicle = ride.vehicle || 'bike';
+      const availableRiders = Array.from(onlineRiders.values())
+        .filter(r => r.vehicle === vehicle).length;
+      
+      io.emit(`ride-${rideId}-status`, {
+        availableRiders,
+        status: 'pending'
+      });
+    });
   });
 
-  // Join a ride room
-  socket.on('join-ride', (rideId) => {
-    socket.join(rideId);
-    debugLog(`Client ${socket.id} joined ride room ${rideId}`);
+  // Handle fetch pending rides request
+  socket.on('fetch-pending-rides', (data) => {
+    debugLog('Fetch pending rides request received:', data);
+    const { riderId, vehicle = 'bike' } = data;
+    
+    if (!riderId) {
+      debugLog('Error: riderId is missing in fetch-pending-rides event');
+      return;
+    }
+    
+    const matchingRides = Array.from(pendingRides.values())
+      .filter(ride => ride.vehicle === vehicle);
+    
+    if (matchingRides.length > 0) {
+      debugLog(`Sending ${matchingRides.length} pending rides to rider ${riderId}`);
+      socket.emit('pending-rides', matchingRides);
+    }
   });
 
   // Handle new booking requests - new format
@@ -99,56 +174,33 @@ io.on('connection', (socket) => {
       return;
     }
     
+    // Store as pending ride
+    const rideId = bookingData.id || bookingData.rideId;
+    pendingRides.set(rideId, bookingData);
+    
     // Log online riders before broadcasting
-    debugLog(`About to broadcast booking ${bookingData.id} to riders.`);
+    debugLog(`About to broadcast booking ${rideId} to riders.`);
     logOnlineRiders();
     
-    // Broadcast to ALL sockets (to try to fix the communication issue)
-    debugLog(`Broadcasting new-booking event to ALL sockets for ride ${bookingData.id || bookingData.rideId}`);
-    io.emit('new-booking', bookingData);
-    
-    // Direct targeted broadcast to online riders
-    let sentToCount = 0;
-    onlineRiders.forEach((socketId, riderId) => {
-      debugLog(`Sending booking directly to rider ${riderId} (socket ${socketId})`);
-      const targetSocket = io.sockets.sockets.get(socketId);
-      
-      if (targetSocket) {
-        targetSocket.emit('new-booking', bookingData);
-        sentToCount++;
-      } else {
-        debugLog(`Warning: Socket ${socketId} for rider ${riderId} not found - removing stale entry`);
-        onlineRiders.delete(riderId);
-      }
-    });
-    
-    debugLog(`Booking broadcast complete. Sent to ${sentToCount} online riders directly.`);
+    // Broadcast to matching vehicle type riders
+    const sentToCount = broadcastRideToAvailableRiders(bookingData);
+    debugLog(`Booking broadcast complete. Sent to ${sentToCount} matching online riders.`);
     
     // Emit a confirmation back to the requesting client
     socket.emit('booking-received', { 
       success: true, 
-      rideId: bookingData.id || bookingData.rideId,
+      rideId: rideId,
       sentToRiders: sentToCount
     });
-  });
-
-  // Legacy format
-  socket.on('new-booking', (booking) => {
-    debugLog('New booking request received (legacy new-booking):', booking);
     
-    if (!booking || !booking.id) {
-      debugLog('Error: Invalid booking data in new-booking event');
-      return;
-    }
+    // Emit ride status update
+    const vehicle = bookingData.vehicle || 'bike';
+    const availableRiders = Array.from(onlineRiders.values())
+      .filter(r => r.vehicle === vehicle).length;
     
-    // Broadcast to all clients
-    debugLog(`Broadcasting new-booking event to all clients for ride ${booking.id}`);
-    io.emit('new-booking', booking);
-    
-    // Also broadcast directly to online riders
-    onlineRiders.forEach((socketId, riderId) => {
-      debugLog(`Sending booking directly to rider ${riderId} (socket ${socketId})`);
-      io.to(socketId).emit('new-booking', booking);
+    io.emit(`ride-${rideId}-status`, {
+      availableRiders,
+      status: 'pending'
     });
   });
 
@@ -161,6 +213,9 @@ io.on('connection', (socket) => {
       debugLog('Error: rideId is missing in accept-ride event');
       return;
     }
+    
+    // Remove from pending rides
+    pendingRides.delete(rideId);
     
     // Store ride association with rider
     activeRides.set(rideId, { riderId });
@@ -184,37 +239,18 @@ io.on('connection', (socket) => {
     debugLog(`Ride ${rideId} accepted by rider ${riderId}`);
   });
 
-  // Update rider location
-  socket.on('update-rider-location', (data) => {
-    debugLog('Rider location update received:', data);
-    const { rideId, location } = data;
-    
-    if (!rideId || !location) {
-      debugLog('Error: Invalid data in update-rider-location event');
-      return;
-    }
-    
-    // Broadcast to specific ride room
-    debugLog(`Broadcasting rider-location-update for ride ${rideId}`);
-    io.to(rideId).emit('rider-location-update', {
-      rideId,
-      location
-    });
-  });
-
-  // Handle ride completion (alternative event name for compatibility)
+  // Handle ride completion
   socket.on('complete-ride', (data) => {
     let rideId;
     let riderId;
     
-    // Handle both string and object formats
     if (typeof data === 'string') {
       rideId = data;
-      debugLog(`Ride ${rideId} completion request received via complete-ride (string format)`);
+      debugLog(`Ride ${rideId} completion request received (string format)`);
     } else if (typeof data === 'object' && data !== null) {
       rideId = data.rideId;
       riderId = data.riderId;
-      debugLog(`Ride ${rideId} completion request received via complete-ride (object format) from rider ${data.riderId}`);
+      debugLog(`Ride ${rideId} completion request received (object format) from rider ${riderId}`);
     } else {
       debugLog('Error: Invalid data format in complete-ride event');
       return;
@@ -225,56 +261,31 @@ io.on('connection', (socket) => {
       return;
     }
     
-    // Retrieve the active ride data
-    const rideData = activeRides.get(rideId);
-    if (!riderId && rideData) {
-      riderId = rideData.riderId;
-    }
-    
-    // Mark ride as completed
+    // Remove from active and pending rides
     activeRides.delete(rideId);
+    pendingRides.delete(rideId);
     
-    // Broadcast to the specific ride room
-    debugLog(`Broadcasting ride-completed event for ride ${rideId} (from complete-ride event)`);
-    io.to(rideId).emit('ride-completed', rideId);
-    
-    // Also broadcast to ALL sockets as a fallback
-    debugLog(`Also broadcasting ride-completed event to all sockets as fallback (from complete-ride event)`);
+    // Broadcast completion
     io.emit('ride-completed', rideId);
     
-    // Send direct confirmation back to the requesting socket
+    // Send confirmation
     socket.emit('ride-complete-confirmed', {
       success: true,
       rideId: rideId,
       timestamp: new Date().toISOString()
     });
     
-    // Attempt to create ride history entry via the API
+    // Create ride history if we have rider ID
     if (riderId) {
-      debugLog(`Attempting to create ride history for ride ${rideId} with rider ${riderId}`);
-      
-      // Make API call to create ride history
+      debugLog(`Creating ride history for completed ride ${rideId}`);
       axios.post('http://localhost:4000/api/ridehistories/socket-create', {
         riderId: riderId,
         rideId: rideId,
         status: 'completed',
-        apiKey: 'server-side-key' // This should match what's expected in the API
+        apiKey: 'server-side-key'
       })
-      .then(response => {
-        debugLog(`Successfully created ride history: ${response.data.rideId}`);
-      })
-      .catch(error => {
-        debugLog(`Error creating ride history: ${error.message}`);
-      });
-    } else {
-      debugLog(`Cannot create ride history for ride ${rideId}: No rider ID available`);
-    }
-  });
-
-  // Debug event handler for all events
-  socket.onAny((event, ...args) => {
-    if (!['connect', 'disconnect'].includes(event)) {
-      debugLog(`[Debug] Socket ${socket.id} sent '${event}' event:`, args);
+      .then(response => debugLog(`Ride history created: ${response.data.rideId}`))
+      .catch(error => debugLog(`Error creating ride history: ${error.message}`));
     }
   });
 
@@ -283,10 +294,22 @@ io.on('connection', (socket) => {
     debugLog('Client disconnected:', socket.id);
     
     // Remove from online riders if they were a rider
-    for (const [riderId, socketId] of onlineRiders.entries()) {
-      if (socketId === socket.id) {
+    for (const [riderId, data] of onlineRiders.entries()) {
+      if (data.socketId === socket.id) {
         onlineRiders.delete(riderId);
         debugLog(`Rider ${riderId} removed from online riders due to disconnect`);
+        
+        // Update ride status for all pending rides
+        pendingRides.forEach((ride, rideId) => {
+          const vehicle = ride.vehicle || 'bike';
+          const availableRiders = Array.from(onlineRiders.values())
+            .filter(r => r.vehicle === vehicle).length;
+          
+          io.emit(`ride-${rideId}-status`, {
+            availableRiders,
+            status: 'pending'
+          });
+        });
       }
     }
   });

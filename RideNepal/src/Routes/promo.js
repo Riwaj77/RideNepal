@@ -100,6 +100,34 @@ router.post('/use', async (req, res) => {
   }
 });
 
+// Public endpoint to get all ACTIVE promos
+router.get('/active', async (req, res) => {
+  try {
+    // Find all active promos that aren't expired
+    const activePromos = await Promo.find({
+      status: 'active',
+      $or: [
+        { expiryDate: null },
+        { expiryDate: { $gt: new Date() } }
+      ]
+    }).sort({ createdAt: -1 });
+    
+    res.status(200).json({ 
+      success: true, 
+      promos: activePromos.map(promo => ({
+        _id: promo._id,
+        code: promo.code,
+        discount: promo.discount,
+        description: promo.description,
+        expiryDate: promo.expiryDate
+      }))
+    });
+  } catch (error) {
+    console.error('Error fetching active promos:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch active promo codes', error: error.message });
+  }
+});
+
 // Use the development-friendly middleware for admin routes
 router.use(devFriendlyAuth);
 

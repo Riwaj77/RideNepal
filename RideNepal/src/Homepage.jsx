@@ -11,10 +11,20 @@ import driverIcon from './assets/images/menu_bike.png';
 import helpIcon from './assets/images/menu_help.png';
 import logoutIcon from './assets/images/menu_logout.png';
 
+// Promo icon component
+const PromoIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="menu-item-icon">
+    <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path>
+    <path d="M7 7h.01"></path>
+  </svg>
+);
+
 export default function Homepage({toggleMenu}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const [promos, setPromos] = useState([]);
+  const [showPromos, setShowPromos] = useState(false);
 
   // Check for authentication token when component mounts
   useEffect(() => {
@@ -39,6 +49,58 @@ export default function Homepage({toggleMenu}) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    async function fetchPromos() {
+      try {
+        // Try a different URL for public access to active promos
+        // We use the /api/promos/active endpoint for public access
+        const res = await fetch('http://localhost:4000/api/promos/active');
+        
+        if (!res.ok) {
+          // Fallback to authenticated endpoint if public one fails
+          const token = localStorage.getItem('token');
+          if (!token) {
+            console.log('User not authenticated, cannot fetch promos');
+            return;
+          }
+          
+          const authRes = await fetch('http://localhost:4000/api/promos', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          if (!authRes.ok) {
+            throw new Error(`Error ${authRes.status}: ${authRes.statusText}`);
+          }
+          
+          const authData = await authRes.json();
+          if (authData.success && authData.promos) {
+            const activePromos = authData.promos.filter(promo => 
+              promo.status === 'active' && 
+              (!promo.expiryDate || new Date(promo.expiryDate) > new Date())
+            );
+            setPromos(activePromos);
+          } else {
+            setPromos([]);
+          }
+          return;
+        }
+        
+        const data = await res.json();
+        if (data.success && data.promos) {
+          setPromos(data.promos);
+        } else {
+          setPromos([]);
+        }
+      } catch (err) {
+        console.error('Error fetching promos:', err);
+        setPromos([]);
+      }
+    }
+    fetchPromos();
   }, []);
 
   const handleLogout = () => {
@@ -86,6 +148,13 @@ export default function Homepage({toggleMenu}) {
                 <img src={helpIcon} alt="Help" className="menu-item-icon" />
                 <span>Help</span>
               </Link>
+              <button
+                className="menu-item"
+                onClick={() => { setShowPromos(true); setIsMenuOpen(false); }}
+              >
+                <PromoIcon />
+                <span>Offers & Promos</span>
+              </button>
               <button className="menu-item logout" onClick={handleLogout}>
                 <img src={logoutIcon} alt="Logout" className="menu-item-icon" />
                 <span>Logout</span>
@@ -286,6 +355,36 @@ export default function Homepage({toggleMenu}) {
           © 2024 RideNepal. All Rights Reserved.
         </span>
       </footer>
+
+      {showPromos && (
+        <div className="promos-modal">
+          <div className="promos-modal-content">
+            <button className="close-promos" onClick={() => setShowPromos(false)}>×</button>
+            <h3>Available Offers & Promos</h3>
+            {promos.length === 0 ? (
+              <div className="no-promos-message">
+                <p>No active promos at the moment.</p>
+                <p className="check-back">Check back later for exciting offers!</p>
+              </div>
+            ) : (
+              <ul className="promos-list">
+                {promos.map(promo => (
+                  <li key={promo._id} className="promo-item">
+                    <span className="promo-code">{promo.code}</span>
+                    <span className="promo-discount">{promo.discount}% OFF</span>
+                    <p className="promo-description">{promo.description}</p>
+                    {promo.expiryDate && 
+                      <div className="promo-expiry">
+                        Valid until: {new Date(promo.expiryDate).toLocaleDateString()}
+                      </div>
+                    }
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
